@@ -44,11 +44,11 @@ minecraft {
 }
 
 repositories {
-
+    maven { url = "http://maven.tterrag.com/" }
 }
 
 dependencies {
-
+    compile "team.chisel:Chisel:${chisel_version}:api"
 }
 
 processResources {
