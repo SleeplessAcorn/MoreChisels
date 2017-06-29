@@ -1,0 +1,17 @@
+# Gradle
+!gradle-wrapper.jar
+.gradle/
+build/
+
+# IntelliJ
+*.iml
+*.jar
+.idea/
+out/
+classes/
+run/
+
+# Project
+compiled/
+docs/
+libs/

@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "nom",
+    "name": "Nom",
+    "description": "Extra chisels to chisel things with.",
+    "version": "${build_version}",
+    "mcversion": "${mcf_version}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["InsomniaKitten", "TehNut"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
