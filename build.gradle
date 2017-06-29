@@ -36,6 +36,8 @@ minecraft {
     mappings = mcp_mappings
 
     replace '%mod_version%', "${mod_version}"
+    replace '%mc_version%', "${mc_version}"
+    replace '%chisel_version%', "${chisel_version}"
 
     replace 'scala.actors.threadpool.Arrays', 'java.util.Arrays'
 
@@ -48,7 +50,7 @@ repositories {
 }
 
 dependencies {
-    compile "team.chisel:Chisel:${chisel_version}:api"
+    compile "team.chisel:Chisel:MC${mc_version}-${chisel_version}:api"
 }
 
 processResources {
