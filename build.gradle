@@ -37,7 +37,7 @@ minecraft {
 
     replace '%mod_version%', "${mod_version}"
     replace '%mc_version%', "${mc_version}"
-    replace '%chisel_version%', "${chisel_version}"
+    replace '%chisel_version%', "MC${mc_version}-${chisel_version}"
 
     replace 'scala.actors.threadpool.Arrays', 'java.util.Arrays'
 
@@ -50,6 +50,9 @@ repositories {
 }
 
 dependencies {
+    runtime "team.chisel.ctm:CTM:MC${mc_version}-${ctm_version}"
+    runtime "team.chisel:Chisel:MC${mc_version}-${chisel_version}"
+
     compile "team.chisel:Chisel:MC${mc_version}-${chisel_version}:api"
 }
 

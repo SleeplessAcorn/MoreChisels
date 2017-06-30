@@ -1,7 +1,7 @@
 [
   {
-    "modid": "nom",
-    "name": "Nom",
+    "modid": "morechisels",
+    "name": "More Chisels",
     "description": "Extra chisels to chisel things with.",
     "version": "${build_version}",
     "mcversion": "${mcf_version}",

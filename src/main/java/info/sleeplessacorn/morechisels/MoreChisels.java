@@ -16,31 +16,28 @@ package info.sleeplessacorn.morechisels;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.lib.LibInfo;
+import info.sleeplessacorn.morechisels.proxy.ClientProxy;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.SidedProxy;
 
 @Mod(
-        modid = LibInfo.MOD_ID,
-        name = LibInfo.MOD_NAME,
-        version = LibInfo.MOD_VERSION,
-        dependencies = "required-after:chisel@[" + LibInfo.CHISEL_VERSION + ",);",
-        acceptedMinecraftVersions = LibInfo.MC_VERSION
+        modid = MoreChisels.MOD_ID,
+        name = MoreChisels.MOD_NAME,
+        version = MoreChisels.MOD_VERSION,
+        dependencies = "required-after:chisel@[" + MoreChisels.CHISEL_VERSION + ",);after:chisel-api@[,0.0.1);",
+        acceptedMinecraftVersions = MoreChisels.MC_VERSION
 )
 public class MoreChisels {
 
-    @Mod.Instance
-    public static MoreChisels instance;
+    public static final String MOD_ID = "morechisels";
+    public static final String MOD_NAME = "More Chisels";
+    public static final String MOD_VERSION = "%mod_version%";
+    public static final String MC_VERSION = "%mc_version%";
+    public static final String CHISEL_VERSION = "%chisel_version%";
 
-    @Mod.EventHandler
-    public void onPreInit(FMLPreInitializationEvent event) {}
+    @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.proxy.ClientProxy")
+    public static ClientProxy proxy;
 
-    @Mod.EventHandler
-    public void onInit(FMLInitializationEvent event) {}
-
-    @Mod.EventHandler
-    public void onPostInit(FMLPostInitializationEvent event) {}
-
+    public static CreativeTabs CHISEL_TAB = CreativeTabs.MISC;
 }
