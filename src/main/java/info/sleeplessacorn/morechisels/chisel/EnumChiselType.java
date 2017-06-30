@@ -21,28 +21,26 @@ import java.util.Locale;
 public enum EnumChiselType {
 
     DIRTY("dirt", 32, false, false),
-    WOODEN("plankWood", 64, false, false),
-    GOLDEN("ingotGold", 512, true, false);
+    WOODEN("plankWood", 64, false, false);
 
-    private final String oreDictMaterial;
+    private final String oredict;
     private final int durability;
     private final boolean hasGui;
     private final boolean isAdvanced;
 
-    EnumChiselType(String oreDictMaterial, int durability, boolean hasGui, boolean isAdvanced) {
-        this.oreDictMaterial = oreDictMaterial;
+    EnumChiselType(String oredict, int durability, boolean hasGui, boolean isAdvanced) {
+        this.oredict = oredict;
         this.durability = durability;
         this.hasGui = hasGui;
         this.isAdvanced = isAdvanced;
     }
 
-    @Override
-    public String toString() {
+    public String getName() {
         return name().toLowerCase(Locale.ENGLISH);
     }
 
     public String getOreDict() {
-        return oreDictMaterial;
+        return oredict;
     }
 
     public int getDurability() {

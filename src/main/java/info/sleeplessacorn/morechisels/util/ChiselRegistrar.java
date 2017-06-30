@@ -18,11 +18,14 @@ package info.sleeplessacorn.morechisels.util;
 
 import info.sleeplessacorn.morechisels.MoreChisels;
 import info.sleeplessacorn.morechisels.chisel.EnumChiselType;
-import info.sleeplessacorn.morechisels.chisel.ItemChiselBase;
+import info.sleeplessacorn.morechisels.chisel.ItemChiselEnum;
+import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import team.chisel.common.config.Configurations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +35,32 @@ public class ChiselRegistrar {
 
     public static final List<Item> CHISELS = new ArrayList<>();
 
-    static {
-        for (EnumChiselType type : EnumChiselType.values())
-            CHISELS.add(new ItemChiselBase(type));
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onItemRegistry(RegistryEvent.Register<Item> event) {
+        registerChisels();
+        event.getRegistry().registerAll(CHISELS.toArray(new Item[0]));
     }
 
-    @SubscribeEvent
-    public static void onItemRegistry(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(CHISELS.toArray(new Item[0]));
+    public static void registerChisels() {
+
+        // Default chisels
+        for (EnumChiselType type : EnumChiselType.values())
+            CHISELS.add(new ItemChiselEnum(type));
+
+        // Metal chisels
+        int ingotDurability = Configurations.ironChiselMaxDamage;
+        for (String ingot : OreDictHelper.getAllFromPrefix("ingot")) {
+            if (!ingot.toLowerCase().contains("brick") && !ingot.equals("ingotIron"))
+                CHISELS.add(new ItemChiselOreDict(ingot.substring(5), ingotDurability, ingot));
+        }
+
+        // Gem chisels
+        int gemDurability = Configurations.diamondChiselMaxDamage;
+        for (String gem : OreDictHelper.getAllFromPrefix("gem")) {
+            if (!gem.toLowerCase().contains("diamond"))
+                CHISELS.add(new ItemChiselOreDict(gem.substring(3), gemDurability, gem));
+        }
+
     }
 
 }

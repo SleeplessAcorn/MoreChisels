@@ -25,32 +25,31 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.chisel.api.IChiselGuiType;
-import team.chisel.api.IChiselGuiType.ChiselGuiType;
 import team.chisel.api.IChiselItem;
 import team.chisel.api.carving.ICarvingVariation;
 
-@SuppressWarnings("NullableProblems")
 public class ItemChiselBase extends Item implements IChiselItem {
 
-    private EnumChiselType type;
-
+    private String name;
+    private String oredict;
     private boolean hasGui;
     private boolean isAdvanced;
 
-    public ItemChiselBase(EnumChiselType type) {
-        setRegistryName("chisel_" + type.toString());
-        setUnlocalizedName(MoreChisels.MOD_ID + ".chisel." + type.toString());
+    public ItemChiselBase(String name, int durability, String oredict, boolean hasGui, boolean isAdvanced) {
+        setRegistryName("chisel_" + name.toLowerCase());
+        setUnlocalizedName(MoreChisels.MOD_ID + ".chisel." + name.toLowerCase());
         setMaxStackSize(1);
-        setMaxDamage(type.getDurability());
+        setMaxDamage(durability);
         setCreativeTab(MoreChisels.CHISEL_TAB);
-        this.type = type;
-        this.hasGui = type.hasGui();
-        this.isAdvanced = type.isAdvanced();
+        this.name = name;
+        this.oredict = oredict;
+        this.hasGui = hasGui;
+        this.isAdvanced = isAdvanced;
 
     }
 
-    public EnumChiselType getType() {
-        return type;
+    public String getOreDict() {
+        return oredict;
     }
 
     @Override
@@ -60,7 +59,7 @@ public class ItemChiselBase extends Item implements IChiselItem {
 
     @Override
     public IChiselGuiType getGuiType(World world, EntityPlayer player, EnumHand hand) {
-        return ChiselGuiType.NORMAL;
+        return IChiselGuiType.ChiselGuiType.NORMAL;
     }
 
     @Override

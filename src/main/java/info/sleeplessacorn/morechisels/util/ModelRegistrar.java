@@ -16,8 +16,11 @@ package info.sleeplessacorn.morechisels.util;
  *   limitations under the License.
  */
 
+import info.sleeplessacorn.morechisels.MoreChisels;
+import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
@@ -31,9 +34,12 @@ public class ModelRegistrar {
 
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {
+        ResourceLocation dynamic = new ResourceLocation(MoreChisels.MOD_ID + ":chisel_dynamic");
         for (Item chisel : ChiselRegistrar.CHISELS) {
             assert chisel.getRegistryName() != null;
-            ModelResourceLocation mrl = new ModelResourceLocation(chisel.getRegistryName(), "inventory");
+            ResourceLocation normal = chisel.getRegistryName();
+            boolean isDynamic = chisel instanceof ItemChiselOreDict;
+            ModelResourceLocation mrl = new ModelResourceLocation(isDynamic ? dynamic : normal, "inventory");
             ModelLoader.setCustomModelResourceLocation(chisel, 0, mrl);
         }
     }

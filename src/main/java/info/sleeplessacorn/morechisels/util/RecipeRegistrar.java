@@ -38,7 +38,7 @@ public class RecipeRegistrar {
     }
 
     public static void addChiselRecipe(ItemChiselBase chisel) {
-        String oredict = chisel.getType().getOreDict();
+        String oredict = chisel.getOreDict();
         if (!OreDictionary.doesOreNameExist(oredict)) return;
         GameRegistry.addShapedRecipe(
                 chisel.getRegistryName(), null, new ItemStack(chisel),

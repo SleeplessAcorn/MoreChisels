@@ -16,8 +16,11 @@ package info.sleeplessacorn.morechisels;
  *   limitations under the License.
  */
 
+import info.sleeplessacorn.morechisels.chisel.ProxyColorHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import team.chisel.common.init.ChiselTabs;
 
 @Mod(
@@ -36,5 +39,13 @@ public class MoreChisels {
     public static final String CHISEL_VERSION = "%chisel_version%";
 
     public static final CreativeTabs CHISEL_TAB = ChiselTabs.tab;
+
+    @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.chisel.ProxyColorHandler")
+    public static ProxyColorHandler proxy;
+
+    @Mod.EventHandler
+    public void onPostInit(FMLPostInitializationEvent event) {
+        proxy.registerColorHandler();
+    }
 
 }
