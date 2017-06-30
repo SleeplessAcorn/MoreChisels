@@ -17,13 +17,11 @@ package info.sleeplessacorn.morechisels.chisel;
  */
 
 import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.util.ChiselRegistrar;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.chisel.api.IChiselGuiType;
@@ -51,11 +49,6 @@ public class ItemChiselBase extends Item implements IChiselItem {
         this.hasGui = type.hasGui();
         this.isAdvanced = type.isAdvanced();
 
-        ChiselRegistrar.CHISELS.add(this);
-    }
-
-    public ResourceLocation getGroup() {
-        return new ResourceLocation(MoreChisels.MOD_ID, "chisel");
     }
 
     public EnumChiselType getType() {

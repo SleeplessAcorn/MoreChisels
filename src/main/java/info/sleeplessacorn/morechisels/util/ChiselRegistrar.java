@@ -32,9 +32,10 @@ public class ChiselRegistrar {
 
     public static final List<Item> CHISELS = new ArrayList<>();
 
-    public static final ItemChiselBase DIRTY_CHISEL = new ItemChiselBase(EnumChiselType.DIRTY);
-    public static final ItemChiselBase WOODEN_CHISEL = new ItemChiselBase(EnumChiselType.WOODEN);
-    public static final ItemChiselBase GOLDEN_CHISEL = new ItemChiselBase(EnumChiselType.GOLDEN);
+    static {
+        for (EnumChiselType type : EnumChiselType.values())
+            CHISELS.add(new ItemChiselBase(type));
+    }
 
     @SubscribeEvent
     public static void onItemRegistry(RegistryEvent.Register<Item> event) {
