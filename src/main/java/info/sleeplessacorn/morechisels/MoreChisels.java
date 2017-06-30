@@ -36,8 +36,9 @@ public class MoreChisels {
     public static final String MC_VERSION = "%mc_version%";
     public static final String CHISEL_VERSION = "%chisel_version%";
 
+    public static CreativeTabs CHISEL_TAB = CreativeTabs.MISC;
+
     @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.proxy.ClientProxy")
     public static ClientProxy proxy;
 
-    public static CreativeTabs CHISEL_TAB = CreativeTabs.MISC;
 }

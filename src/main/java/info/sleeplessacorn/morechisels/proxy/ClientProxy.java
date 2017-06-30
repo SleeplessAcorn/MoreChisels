@@ -42,7 +42,7 @@ public class ClientProxy {
     }
 
     @SubscribeEvent
-    public static void onModelRegistry(ModelRegistryEvent e) {
+    public static void onModelRegistry(ModelRegistryEvent event) {
         for (Item chisel : ChiselRegistrar.CHISELS) {
             assert chisel.getRegistryName() != null;
             ModelResourceLocation mrl = new ModelResourceLocation(chisel.getRegistryName(), "inventory");

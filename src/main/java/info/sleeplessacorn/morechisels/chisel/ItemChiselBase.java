@@ -37,8 +37,6 @@ public class ItemChiselBase extends Item implements IChiselItem {
     private boolean hasGui;
     private boolean isAdvanced;
 
-    protected boolean hasModes = false;
-
     public ItemChiselBase(EnumChiselType type) {
         setRegistryName("chisel_" + type.toString());
         setUnlocalizedName(MoreChisels.MOD_ID + ".chisel." + type.toString());
@@ -62,7 +60,7 @@ public class ItemChiselBase extends Item implements IChiselItem {
 
     @Override
     public IChiselGuiType getGuiType(World world, EntityPlayer player, EnumHand hand) {
-        return isAdvanced ? ChiselGuiType.HITECH : ChiselGuiType.NORMAL;
+        return ChiselGuiType.NORMAL;
     }
 
     @Override
