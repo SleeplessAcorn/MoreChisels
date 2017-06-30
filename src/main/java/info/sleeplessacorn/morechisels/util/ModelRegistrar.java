@@ -1,4 +1,4 @@
-package info.sleeplessacorn.morechisels.proxy;
+package info.sleeplessacorn.morechisels.util;
 
 /*
  *  Copyright 2017 Sleepless Acorn
@@ -16,10 +16,7 @@ package info.sleeplessacorn.morechisels.proxy;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.util.ChiselRegistrar;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -28,18 +25,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Arrays;
-
 @Mod.EventBusSubscriber(Side.CLIENT)
 @SideOnly(Side.CLIENT)
-public class ClientProxy {
-
-    public void getChiselTab() {
-        Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY)
-                .filter(t -> t.getTabLabel().equals("chiselCreativeTab"))
-                .findFirst().ifPresent(tab -> MoreChisels.CHISEL_TAB = tab);
-        // blame tterrag, but hey, it works :derp1::derp2:
-    }
+public class ModelRegistrar {
 
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {

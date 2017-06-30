@@ -16,10 +16,11 @@ package info.sleeplessacorn.morechisels;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.proxy.ClientProxy;
+import info.sleeplessacorn.morechisels.util.ModelRegistrar;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
+import team.chisel.common.init.ChiselTabs;
 
 @Mod(
         modid = MoreChisels.MOD_ID,
@@ -36,9 +37,9 @@ public class MoreChisels {
     public static final String MC_VERSION = "%mc_version%";
     public static final String CHISEL_VERSION = "%chisel_version%";
 
-    public static CreativeTabs CHISEL_TAB = CreativeTabs.MISC;
+    public static final CreativeTabs CHISEL_TAB = ChiselTabs.tab;
 
-    @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.proxy.ClientProxy")
-    public static ClientProxy proxy;
+    @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.util.ModelRegistrar")
+    public static ModelRegistrar proxy;
 
 }

@@ -42,7 +42,6 @@ minecraft {
     replace 'scala.actors.threadpool.Arrays', 'java.util.Arrays'
 
     useDepAts = true
-    makeObfSourceJar = true
 }
 
 repositories {
@@ -50,10 +49,12 @@ repositories {
 }
 
 dependencies {
+    compile "team.chisel.ctm:CTM:MC${mc_version}-${ctm_version}"
+    compile "team.chisel:Chisel:MC${mc_version}-${chisel_version}"
+
     runtime "team.chisel.ctm:CTM:MC${mc_version}-${ctm_version}"
     runtime "team.chisel:Chisel:MC${mc_version}-${chisel_version}"
 
-    compile "team.chisel:Chisel:MC${mc_version}-${chisel_version}:api"
 }
 
 processResources {
@@ -67,14 +68,4 @@ processResources {
     }
 
     from(sourceSets.main.resources.srcDirs) {exclude 'mcmod.info'}
-}
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
-    manifest {}
-}
-
-artifacts {
-    archives deobfJar
 }

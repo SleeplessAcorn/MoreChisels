@@ -39,7 +39,6 @@ public class ChiselRegistrar {
 
     @SubscribeEvent
     public static void onItemRegistry(RegistryEvent.Register<Item> event) {
-        MoreChisels.proxy.getChiselTab();
         event.getRegistry().registerAll(CHISELS.toArray(new Item[0]));
     }
 
