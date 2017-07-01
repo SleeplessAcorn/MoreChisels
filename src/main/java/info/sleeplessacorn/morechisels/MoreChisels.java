@@ -16,7 +16,6 @@ package info.sleeplessacorn.morechisels;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.util.ColorHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Mod;
@@ -47,12 +46,14 @@ public class MoreChisels {
 
     public static final boolean DEOBF = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 
-    @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.util.ColorHandler")
-    public static ColorHandler colorHandler;
+    @SidedProxy(
+            clientSide = "info.sleeplessacorn.morechisels.util.ColorHandler",
+            serverSide = "info.sleeplessacorn.morechisels.ProxyWrapper")
+    public static ProxyWrapper proxy;
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
-        colorHandler.registerColorHandler();
+        proxy.registerColorHandler();
 
     }
 

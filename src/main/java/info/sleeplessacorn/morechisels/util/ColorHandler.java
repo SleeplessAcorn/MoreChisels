@@ -17,6 +17,7 @@ package info.sleeplessacorn.morechisels.util;
  */
 
 import info.sleeplessacorn.morechisels.MoreChisels;
+import info.sleeplessacorn.morechisels.ProxyWrapper;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -34,10 +35,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class ColorHandler {
+public class ColorHandler extends ProxyWrapper {
 
     public static final Map<String, Integer> ORE_COLORS = new HashMap<>();
 
+    @Override
     public void registerColorHandler() {
         ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager())
                 .registerReloadListener(resourceManager -> {
@@ -50,7 +52,7 @@ public class ColorHandler {
         }
     }
 
-    public void cacheOreColors(String oredict) {
+    private void cacheOreColors(String oredict) {
         for (String entry : OreDictHelper.getAllFromPrefix(oredict)) {
             if (MoreChisels.DEOBF)
                 MoreChisels.LOGGER.info("Caching color for ore dictionary entry <{}>", entry);
@@ -58,7 +60,7 @@ public class ColorHandler {
         }
     }
 
-    public void registerChiselColor(ItemChiselOreDict chisel) {
+    private void registerChiselColor(ItemChiselOreDict chisel) {
         ItemColors colors = Minecraft.getMinecraft().getItemColors();
         colors.registerItemColorHandler((stack, tintIndex) -> {
             boolean isHead = tintIndex == 1;
@@ -74,14 +76,14 @@ public class ColorHandler {
         }, chisel);
     }
 
-    public int getOreColor(String oredict) {
+    private int getOreColor(String oredict) {
         if (OreDictionary.getOres(oredict).size() > 0) {
             ItemStack stack = OreDictionary.getOres(oredict).get(0);
             return getStackColor(stack);
         } else return 0xFF000000;
     }
 
-    public int getStackColor(ItemStack stack) {
+    private int getStackColor(ItemStack stack) {
         IBakedModel model = Minecraft.getMinecraft().getRenderItem()
                 .getItemModelWithOverrides(stack, null, null);
         TextureAtlasSprite sprite = model.getParticleTexture();
