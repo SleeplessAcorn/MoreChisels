@@ -16,6 +16,8 @@ package info.sleeplessacorn.morechisels.util;
  *   limitations under the License.
  */
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
@@ -33,6 +35,11 @@ public class OreDictHelper {
 
     public static String format(String input) {
         return input.replaceAll("[A-Z]","_$0");
+    }
+
+    public static boolean hasItems(String oredict) {
+        NonNullList<ItemStack> list = OreDictionary.getOres(oredict);
+        return list.size() > 0 && !list.get(0).isEmpty();
     }
 
 }

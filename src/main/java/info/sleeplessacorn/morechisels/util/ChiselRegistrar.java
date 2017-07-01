@@ -51,7 +51,7 @@ public class ChiselRegistrar {
         // Ingot chisels
         int ingotDurability = Configurations.ironChiselMaxDamage;
         for (String ingot : OreDictHelper.getAllFromPrefix("ingot")) {
-            if (!ConfigMoreChisels.isBlacklisted(ingot))
+            if (!ConfigMoreChisels.isBlacklisted(ingot) && OreDictHelper.hasItems(ingot))
                 CHISELS.add(new ItemChiselOreDict(
                         OreDictHelper.format(ingot),
                         ingotDurability, ingot));
@@ -60,7 +60,7 @@ public class ChiselRegistrar {
         // Gem chisels
         int gemDurability = Configurations.diamondChiselMaxDamage;
         for (String gem : OreDictHelper.getAllFromPrefix("gem")) {
-            if (!ConfigMoreChisels.isBlacklisted(gem))
+            if (!ConfigMoreChisels.isBlacklisted(gem) && OreDictHelper.hasItems(gem))
                 CHISELS.add(new ItemChiselOreDict(
                         OreDictHelper.format(gem),
                         gemDurability, gem));
