@@ -21,6 +21,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import team.chisel.common.init.ChiselTabs;
 
 @Mod(
@@ -39,6 +41,8 @@ public class MoreChisels {
     public static final String CHISEL_VERSION = "%chisel_version%";
 
     public static final CreativeTabs CHISEL_TAB = ChiselTabs.tab;
+
+    public static final Logger LOGGER = LogManager.getLogger(MoreChisels.MOD_NAME);
 
     @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.util.ColorHandler")
     public static ColorHandler colorHandler;

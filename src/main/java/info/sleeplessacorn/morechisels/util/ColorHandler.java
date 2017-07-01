@@ -16,6 +16,7 @@ package info.sleeplessacorn.morechisels.util;
  *   limitations under the License.
  */
 
+import info.sleeplessacorn.morechisels.MoreChisels;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -28,24 +29,24 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class ColorHandler {
 
-    public static List<Pair<String, Integer>> oreColors = new ArrayList<>();
+    public static final Map<String, Integer> ORE_COLORS = new HashMap<>();
 
     public void registerColorHandler() {
         Minecraft mc = Minecraft.getMinecraft();
         ((IReloadableResourceManager) mc.getResourceManager())
                 .registerReloadListener(resourceManager -> {
                     for (String ingot : OreDictHelper.getAllFromPrefix("ingot"))
-                        oreColors.add(Pair.of(ingot, getOreColor(ingot)));
+                        ORE_COLORS.put(ingot, getOreColor(ingot));
                     for (String gem : OreDictHelper.getAllFromPrefix("gem"))
-                        oreColors.add(Pair.of(gem, getOreColor(gem)));
+                        ORE_COLORS.put(gem, getOreColor(gem));
+
                 });
         for (Item chisel : ChiselRegistrar.CHISELS) {
             if (chisel instanceof ItemChiselOreDict)
@@ -57,7 +58,16 @@ public class ColorHandler {
         ItemColors colors = Minecraft.getMinecraft().getItemColors();
         colors.registerItemColorHandler((stack, tintIndex) -> {
             boolean isHead = tintIndex == 1;
-            return isHead ? getOreColor(chisel.getOreDict()) : -1;
+            if (ORE_COLORS.containsKey(chisel.getOreDict())) {
+                return isHead ? ORE_COLORS.get(chisel.getOreDict()) : -1;
+            }
+            else {
+                // This else statement should never be reached, and if it is, you done fucked up, Kit
+                String msg = "Could not find a cached color value for <{}>, generating a new one...";
+                MoreChisels.LOGGER.warn(msg, chisel.getOreDict());
+                ORE_COLORS.put(chisel.getOreDict(), getOreColor(chisel.getOreDict()));
+            }
+            return -1;
         }, chisel);
     }
 
