@@ -48,13 +48,17 @@ public class MoreChisels {
 
     @SidedProxy(
             clientSide = "info.sleeplessacorn.morechisels.util.ColorHandler",
-            serverSide = "info.sleeplessacorn.morechisels.ProxyWrapper")
+            serverSide = "info.sleeplessacorn.morechisels.MoreChisels$ProxyWrapper")
     public static ProxyWrapper proxy;
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
         proxy.registerColorHandler();
 
+    }
+
+    public static class ProxyWrapper {
+        public void registerColorHandler() {}
     }
 
 }

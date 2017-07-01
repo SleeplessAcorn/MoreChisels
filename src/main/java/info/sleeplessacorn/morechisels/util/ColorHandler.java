@@ -17,7 +17,6 @@ package info.sleeplessacorn.morechisels.util;
  */
 
 import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.ProxyWrapper;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -35,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class ColorHandler extends ProxyWrapper {
+public class ColorHandler extends MoreChisels.ProxyWrapper {
 
     public static final Map<String, Integer> ORE_COLORS = new HashMap<>();
 
