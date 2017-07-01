@@ -60,8 +60,7 @@ public class ColorHandler {
             boolean isHead = tintIndex == 1;
             if (ORE_COLORS.containsKey(chisel.getOreDict())) {
                 return isHead ? ORE_COLORS.get(chisel.getOreDict()) : -1;
-            }
-            else {
+            } else {
                 // This else statement should never be reached, and if it is, you done fucked up, Kit
                 String msg = "Could not find a cached color value for <{}>, generating a new one...";
                 MoreChisels.LOGGER.warn(msg, chisel.getOreDict());
@@ -74,30 +73,34 @@ public class ColorHandler {
     public int getOreColor(String oredict) {
         if (OreDictionary.getOres(oredict).size() > 0) {
             ItemStack stack = OreDictionary.getOres(oredict).get(0);
-            IBakedModel model = Minecraft.getMinecraft().getRenderItem()
-                    .getItemModelWithOverrides(stack, null, null);
-            TextureAtlasSprite sprite = model.getParticleTexture();
-            int[] pixels = sprite.getFrameTextureData(0)[0];
-            int r = 0, g = 0, b = 0, count = 0;
-            for (int argb : pixels) {
-                int ca = argb >> 24 & 0xFF;
-                int cr = argb >> 16 & 0xFF;
-                int cg = argb >> 8 & 0xFF;
-                int cb = argb & 0xFF;
-                if (ca > 0x7F && NumberUtils.max(cr, cg, cb) > 0x1F) {
-                    r += cr;
-                    g += cg;
-                    b += cb;
-                    count++;
-                }
-            }
-            if (count > 0) {
-                r /= count;
-                g /= count;
-                b /= count;
-            }
-            return 0xFF000000 | r << 16 | g << 8 | b;
+            return getStackColor(stack);
         } else return 0xFF000000;
+    }
+
+    public int getStackColor(ItemStack stack) {
+        IBakedModel model = Minecraft.getMinecraft().getRenderItem()
+                .getItemModelWithOverrides(stack, null, null);
+        TextureAtlasSprite sprite = model.getParticleTexture();
+        int[] pixels = sprite.getFrameTextureData(0)[0];
+        int r = 0, g = 0, b = 0, count = 0;
+        for (int argb : pixels) {
+            int ca = argb >> 24 & 0xFF;
+            int cr = argb >> 16 & 0xFF;
+            int cg = argb >> 8 & 0xFF;
+            int cb = argb & 0xFF;
+            if (ca > 0x7F && NumberUtils.max(cr, cg, cb) > 0x1F) {
+                r += cr;
+                g += cg;
+                b += cb;
+                count++;
+            }
+        }
+        if (count > 0) {
+            r /= count;
+            g /= count;
+            b /= count;
+        }
+        return 0xFF000000 | r << 16 | g << 8 | b;
     }
 
 }
