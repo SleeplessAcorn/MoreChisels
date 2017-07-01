@@ -19,8 +19,6 @@ package info.sleeplessacorn.morechisels.chisel;
 @SuppressWarnings("NullableProblems")
 public class ItemChiselEnum extends ItemChiselBase {
 
-    private EnumChiselType type;
-
     public ItemChiselEnum(EnumChiselType type) {
         super(
                 type.getName(),
@@ -28,12 +26,6 @@ public class ItemChiselEnum extends ItemChiselBase {
                 type.getOreDict(),
                 type.hasGui(),
                 type.isAdvanced());
-
-        this.type = type;
-    }
-
-    public EnumChiselType getType() {
-        return type;
     }
 
 }
