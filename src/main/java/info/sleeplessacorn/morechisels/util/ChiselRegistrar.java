@@ -16,6 +16,7 @@ package info.sleeplessacorn.morechisels.util;
  *   limitations under the License.
  */
 
+import info.sleeplessacorn.morechisels.ConfigMoreChisels;
 import info.sleeplessacorn.morechisels.MoreChisels;
 import info.sleeplessacorn.morechisels.chisel.EnumChiselType;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselEnum;
@@ -38,6 +39,7 @@ public class ChiselRegistrar {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onItemRegistry(RegistryEvent.Register<Item> event) {
         registerChisels();
+        System.out.println(CHISELS.size());
         event.getRegistry().registerAll(CHISELS.toArray(new Item[0]));
     }
 
@@ -50,15 +52,15 @@ public class ChiselRegistrar {
         // Metal chisels
         int ingotDurability = Configurations.ironChiselMaxDamage;
         for (String ingot : OreDictHelper.getAllFromPrefix("ingot")) {
-            if (!ingot.toLowerCase().contains("brick") && !ingot.equals("ingotIron"))
-                CHISELS.add(new ItemChiselOreDict(ingot.substring(5), ingotDurability, ingot));
+            if (!ConfigMoreChisels.isBlacklisted(ingot))
+                CHISELS.add(new ItemChiselOreDict(ingot.substring(5), ingotDurability, ingot, true, false));
         }
 
         // Gem chisels
         int gemDurability = Configurations.diamondChiselMaxDamage;
         for (String gem : OreDictHelper.getAllFromPrefix("gem")) {
-            if (!gem.toLowerCase().contains("diamond"))
-                CHISELS.add(new ItemChiselOreDict(gem.substring(3), gemDurability, gem));
+            if (!ConfigMoreChisels.isBlacklisted(gem))
+                CHISELS.add(new ItemChiselOreDict(gem.substring(3), gemDurability, gem, true, true));
         }
 
     }

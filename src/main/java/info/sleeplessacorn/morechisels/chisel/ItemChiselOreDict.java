@@ -16,7 +16,6 @@ package info.sleeplessacorn.morechisels.chisel;
  *   limitations under the License.
  */
 
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,29 +24,28 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 
-public class ItemChiselOreDict extends ItemChiselBase implements IItemColor {
+public class ItemChiselOreDict extends ItemChiselBase {
 
     private String name;
     private String oredict;
 
-    public ItemChiselOreDict(String name, int durability, String oredict) {
-        super(name, durability, oredict, true, false);
+    public ItemChiselOreDict(
+            String name, int durability, String oredict,
+            boolean hasGui, boolean isAdvanced) {
+        super(name, durability, oredict, hasGui, isAdvanced);
         this.name = name;
         this.oredict = oredict;
     }
 
-    @Override @Nonnull @SideOnly(Side.CLIENT)
+    @Override
+    @Nonnull
+    @SideOnly(Side.CLIENT)
     public String getItemStackDisplayName(ItemStack stack) {
-        ItemStack entry = OreDictionary.getOres(oredict).get(0);
+        ItemStack entry = ItemStack.EMPTY;
+        if (OreDictionary.getOres(oredict).size() > 0)
+            entry = OreDictionary.getOres(oredict).get(0);
         String material = I18n.format(entry.getDisplayName());
         return I18n.format("item.morechisels.chisel.dynamic.name", material);
-    }
-
-    @Override
-    public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-        boolean isHead = tintIndex == 1;
-        // TODO: Coloring stuff
-        return isHead ? -1 : -1;
     }
 
 }

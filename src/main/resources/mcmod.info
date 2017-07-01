@@ -7,8 +7,8 @@
     "mcversion": "${mcf_version}",
     "url": "",
     "updateUrl": "",
-    "authorList": ["InsomniaKitten", "TehNut"],
-    "credits": "",
+    "authorList": ["InsomniaKitten", "TehNut", "pau101"],
+    "credits": "Paul Fulham, for writing the methods needed to obtain colors from a texture. <3",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []
