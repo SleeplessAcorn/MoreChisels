@@ -39,7 +39,7 @@ public class ChiselRegistrar {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onItemRegistry(RegistryEvent.Register<Item> event) {
         registerChisels();
-        System.out.println(CHISELS.size());
+        MoreChisels.LOGGER.info("Registering {} chisels!", CHISELS.size());
         event.getRegistry().registerAll(CHISELS.toArray(new Item[0]));
     }
 
