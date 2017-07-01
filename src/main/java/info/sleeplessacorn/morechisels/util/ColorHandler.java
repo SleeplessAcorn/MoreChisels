@@ -39,18 +39,22 @@ public class ColorHandler {
     public static final Map<String, Integer> ORE_COLORS = new HashMap<>();
 
     public void registerColorHandler() {
-        Minecraft mc = Minecraft.getMinecraft();
-        ((IReloadableResourceManager) mc.getResourceManager())
+        ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager())
                 .registerReloadListener(resourceManager -> {
-                    for (String ingot : OreDictHelper.getAllFromPrefix("ingot"))
-                        ORE_COLORS.put(ingot, getOreColor(ingot));
-                    for (String gem : OreDictHelper.getAllFromPrefix("gem"))
-                        ORE_COLORS.put(gem, getOreColor(gem));
-
+                    cacheOreColors("ingot");
+                    cacheOreColors("gem");
                 });
         for (Item chisel : ChiselRegistrar.CHISELS) {
             if (chisel instanceof ItemChiselOreDict)
                 registerChiselColor((ItemChiselOreDict) chisel);
+        }
+    }
+
+    public void cacheOreColors(String oredict) {
+        for (String entry : OreDictHelper.getAllFromPrefix(oredict)) {
+            if (MoreChisels.DEOBF)
+                MoreChisels.LOGGER.info("Caching color for ore dictionary entry <{}>", entry);
+            ORE_COLORS.put(entry, getOreColor(entry));
         }
     }
 

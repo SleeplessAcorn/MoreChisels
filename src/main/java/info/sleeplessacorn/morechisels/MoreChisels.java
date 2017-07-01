@@ -18,6 +18,7 @@ package info.sleeplessacorn.morechisels;
 
 import info.sleeplessacorn.morechisels.util.ColorHandler;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -43,6 +44,8 @@ public class MoreChisels {
     public static final CreativeTabs CHISEL_TAB = ChiselTabs.tab;
 
     public static final Logger LOGGER = LogManager.getLogger(MoreChisels.MOD_NAME);
+
+    public static final boolean DEOBF = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 
     @SidedProxy(clientSide = "info.sleeplessacorn.morechisels.util.ColorHandler")
     public static ColorHandler colorHandler;
