@@ -44,25 +44,27 @@ public class ChiselRegistrar {
     }
 
     public static void registerChisels() {
-
         // Default chisels
         for (EnumChiselType type : EnumChiselType.values())
             CHISELS.add(new ItemChiselEnum(type));
 
-        // Metal chisels
+        // Ingot chisels
         int ingotDurability = Configurations.ironChiselMaxDamage;
         for (String ingot : OreDictHelper.getAllFromPrefix("ingot")) {
             if (!ConfigMoreChisels.isBlacklisted(ingot))
-                CHISELS.add(new ItemChiselOreDict(ingot.substring(5), ingotDurability, ingot, true, false));
+                CHISELS.add(new ItemChiselOreDict(
+                        OreDictHelper.format(ingot),
+                        ingotDurability, ingot));
         }
 
         // Gem chisels
         int gemDurability = Configurations.diamondChiselMaxDamage;
         for (String gem : OreDictHelper.getAllFromPrefix("gem")) {
             if (!ConfigMoreChisels.isBlacklisted(gem))
-                CHISELS.add(new ItemChiselOreDict(gem.substring(3), gemDurability, gem, true, true));
+                CHISELS.add(new ItemChiselOreDict(
+                        OreDictHelper.format(gem),
+                        gemDurability, gem));
         }
-
     }
 
 }

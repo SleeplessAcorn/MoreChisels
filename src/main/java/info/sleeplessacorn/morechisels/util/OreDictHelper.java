@@ -31,4 +31,8 @@ public class OreDictHelper {
         return cache;
     }
 
+    public static String format(String input) {
+        return input.replaceAll("[A-Z]","_$0");
+    }
+
 }
