@@ -25,6 +25,7 @@ public class ConfigMoreChisels {
     @Config.Comment({"Entries in the ore dictionary that More Chisels shouldn't generate chisels from.",
             "Please note that additions and removals will alter the items that are registered.",
             "You may lose items if you add to the blacklist and load an existing world!"})
+    // TODO: Update comment after moving to NBT subtype system
     @Config.LangKey("config.morechisels.blacklist")
     public static String[] oreBlacklist = {
             "ingotIron",
