@@ -24,7 +24,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 
-public class ItemChiselOreDict extends ItemChiselBase {
+public class ItemChiselOreDict extends ItemChiselBase implements IColoredChisel<String> {
 
     private String name;
     private String oredict;
@@ -49,6 +49,19 @@ public class ItemChiselOreDict extends ItemChiselBase {
             entry = OreDictionary.getOres(oredict).get(0);
         String material = I18n.format(entry.getDisplayName());
         return I18n.format("item.morechisels.chisel.dynamic.name", material);
+    }
+
+    @Override
+    public String getColorId() {
+        return oredict;
+    }
+
+    @Override
+    public String getDescriptiveName() {
+        ItemStack entry = ItemStack.EMPTY;
+        if (OreDictionary.getOres(oredict).size() > 0)
+            entry = OreDictionary.getOres(oredict).get(0);
+        return entry.getDisplayName();
     }
 
 }

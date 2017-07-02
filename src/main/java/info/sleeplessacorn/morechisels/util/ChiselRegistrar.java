@@ -42,10 +42,6 @@ public class ChiselRegistrar {
     }
 
     public static void registerChisels() {
-
-        CHISELS.add(new ItemChiselOreDict("dirty", 32, "dirt", false, false));
-        CHISELS.add(new ItemChiselOreDict("wooden", 128, "plankWood", false, false));
-
         // Ingot chisels
         int ingotDurability = Configurations.ironChiselMaxDamage;
         for (String ingot : OreDictHelper.getAllFromPrefix("ingot")) {
