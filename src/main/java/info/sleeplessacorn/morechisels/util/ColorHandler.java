@@ -62,9 +62,8 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
     private void registerChiselColor(ItemChiselOreDict chisel) {
         ItemColors colors = Minecraft.getMinecraft().getItemColors();
         colors.registerItemColorHandler((stack, tintIndex) -> {
-            boolean isHead = tintIndex == 1;
             if (ORE_COLORS.containsKey(chisel.getOreDict())) {
-                return isHead ? ORE_COLORS.get(chisel.getOreDict()) : -1;
+                return tintIndex == 0 ? ORE_COLORS.get(chisel.getOreDict()) : -1;
             } else {
                 // This else statement should never be reached, and if it is, you done fucked up, Kit
                 String msg = "Could not find a cached color value for <{}>, generating a new one...";

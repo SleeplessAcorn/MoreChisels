@@ -1,8 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "morechisels:items/chisel_dynamic_handle",
-    "layer1": "morechisels:items/chisel_dynamic_head",
-	"layer2": "morechisels:items/chisel_dynamic_head_overlay"
+    "layer0": "morechisels:items/chisel_dynamic",
+	"layer1": "morechisels:items/chisel_dynamic_overlay"
   }
 }
