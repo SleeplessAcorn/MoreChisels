@@ -52,6 +52,7 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
     }
 
     private void cacheOreColors(String oredict) {
+        ORE_COLORS.clear(); // Prevent memory leak on resource pack change
         for (String entry : OreDictHelper.getAllFromPrefix(oredict)) {
             if (MoreChisels.DEOBF)
                 MoreChisels.LOGGER.info("Caching color for ore dictionary entry <{}>", entry);
