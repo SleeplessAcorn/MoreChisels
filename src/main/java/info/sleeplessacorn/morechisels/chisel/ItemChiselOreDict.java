@@ -29,10 +29,15 @@ public class ItemChiselOreDict extends ItemChiselBase {
     private String name;
     private String oredict;
 
-    public ItemChiselOreDict(String name, int durability, String oredict) {
-        super(name, durability, oredict, true, oredict.startsWith("gem"));
+    public ItemChiselOreDict(String name, int durability, String oredict,
+                             boolean hasGui, boolean isAdvanced) {
+        super(name, durability, hasGui, isAdvanced);
         this.name = name;
         this.oredict = oredict;
+    }
+
+    public String getOreDict() {
+        return oredict;
     }
 
     @Override

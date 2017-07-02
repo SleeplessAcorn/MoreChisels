@@ -17,7 +17,7 @@ package info.sleeplessacorn.morechisels.util;
  */
 
 import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.chisel.ItemChiselBase;
+import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -32,20 +32,23 @@ public class RecipeRegistrar {
 
     @SubscribeEvent
     public static void onRecipeRegistry(RegistryEvent.Register<IRecipe> event) {
-        for (Item chisel : ChiselRegistrar.CHISELS)
-            addChiselRecipe((ItemChiselBase) chisel);
-
+        for (Item chisel : ChiselRegistrar.CHISELS) {
+            if (chisel instanceof ItemChiselOreDict) {
+                addChiselOreRecipe((ItemChiselOreDict) chisel);
+            }
+        }
     }
 
-    public static void addChiselRecipe(ItemChiselBase chisel) {
+    public static void addChiselOreRecipe(ItemChiselOreDict chisel) {
         String oredict = chisel.getOreDict();
-        if (!OreDictionary.doesOreNameExist(oredict)) return;
+        if (!OreDictionary.doesOreNameExist(oredict))
+            return;
         GameRegistry.addShapedRecipe(
-                chisel.getRegistryName(), null, new ItemStack(chisel),
+                chisel.getRegistryName(),
+                null, new ItemStack(chisel),
                 " O", "S ",
                 'O', oredict,
                 'S', "stickWood");
-
     }
 
 }

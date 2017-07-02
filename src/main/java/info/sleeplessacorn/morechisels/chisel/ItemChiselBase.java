@@ -38,17 +38,16 @@ import java.util.List;
 @SuppressWarnings("NullableProblems")
 public class ItemChiselBase extends Item implements IChiselItem {
 
-    private String oredict;
     private boolean hasGui;
     private boolean isAdvanced;
 
-    public ItemChiselBase(String name, int durability, String oredict, boolean hasGui, boolean isAdvanced) {
+    public ItemChiselBase(String name, int durability,
+                          boolean hasGui, boolean isAdvanced) {
         setRegistryName("chisel_" + name.toLowerCase());
         setUnlocalizedName(MoreChisels.MOD_ID + ".chisel." + name.toLowerCase());
         setMaxStackSize(1);
         setMaxDamage(durability);
         setCreativeTab(MoreChisels.CHISEL_TAB);
-        this.oredict = oredict;
         this.hasGui = hasGui;
         this.isAdvanced = isAdvanced;
 
@@ -67,10 +66,6 @@ public class ItemChiselBase extends Item implements IChiselItem {
             tooltip.add("");
             tooltip.add(I18n.format(loc + "modes"));
         }
-    }
-
-    public String getOreDict() {
-        return oredict;
     }
 
     @Override

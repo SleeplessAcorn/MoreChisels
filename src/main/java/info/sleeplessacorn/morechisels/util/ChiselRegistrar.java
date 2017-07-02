@@ -18,7 +18,6 @@ package info.sleeplessacorn.morechisels.util;
 
 import info.sleeplessacorn.morechisels.ConfigMoreChisels;
 import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.chisel.ItemChiselBase;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -44,8 +43,8 @@ public class ChiselRegistrar {
 
     public static void registerChisels() {
 
-        CHISELS.add(new ItemChiselBase("dirty", 32, "dirt", false, false));
-        CHISELS.add(new ItemChiselBase("wooden", 128, "plankWood", false, false));
+        CHISELS.add(new ItemChiselOreDict("dirty", 32, "dirt", false, false));
+        CHISELS.add(new ItemChiselOreDict("wooden", 128, "plankWood", false, false));
 
         // Ingot chisels
         int ingotDurability = Configurations.ironChiselMaxDamage;
@@ -53,7 +52,7 @@ public class ChiselRegistrar {
             if (!ConfigMoreChisels.isBlacklisted(ingot) && OreDictHelper.hasItems(ingot))
                 CHISELS.add(new ItemChiselOreDict(
                         OreDictHelper.format(ingot),
-                        ingotDurability, ingot));
+                        ingotDurability, ingot, true, false));
         }
 
         // Gem chisels
@@ -62,7 +61,7 @@ public class ChiselRegistrar {
             if (!ConfigMoreChisels.isBlacklisted(gem) && OreDictHelper.hasItems(gem))
                 CHISELS.add(new ItemChiselOreDict(
                         OreDictHelper.format(gem),
-                        gemDurability, gem));
+                        gemDurability, gem, true, true));
         }
     }
 
