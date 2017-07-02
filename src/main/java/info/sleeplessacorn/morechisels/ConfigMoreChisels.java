@@ -22,18 +22,23 @@ import net.minecraftforge.common.config.Config;
 public class ConfigMoreChisels {
 
     @Config.Name("Ore Dictionary Blacklist")
-    @Config.Comment({"Entries in the ore dictionary that More Chisels shouldn't generate tools from.",
+    @Config.Comment({"Entries in the ore dictionary that More Chisels shouldn't generate chisels from.",
             "Please note that additions and removals will alter the items that are registered.",
             "You may lose items if you add to the blacklist and load an existing world!"})
     @Config.LangKey("config.morechisels.blacklist")
     public static String[] oreBlacklist = createDefaultBlacklist();
 
     public static String[] createDefaultBlacklist() {
-        String[] entries = new String[4];
+        String[] entries = new String[9];
         entries[0] = "ingotIron";
         entries[1] = "gemDiamond";
         entries[2] = "ingotBrick";
         entries[3] = "ingotBrickNether";
+        entries[4] = "ingotHotTungstensteel";
+        entries[5] = "ingotIridium";
+        entries[6] = "ingotAdvancedAlloy";
+        entries[7] = "ingotMixedMetal";
+        entries[8] = "ingotIridiumAlloy";
         return entries;
     }
 
