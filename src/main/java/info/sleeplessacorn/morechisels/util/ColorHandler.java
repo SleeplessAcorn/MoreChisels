@@ -42,7 +42,8 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
     public void registerColorHandler() {
         ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager())
                 .registerReloadListener(resourceManager -> {
-                    ORE_COLORS.clear(); // Prevent memory leak on resource pack change
+                    if (!ORE_COLORS.isEmpty())
+                        ORE_COLORS.clear(); // Prevent memory leak on resource pack change
                     cacheOreColors("ingot");
                     cacheOreColors("gem");
                 });
