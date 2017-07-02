@@ -26,7 +26,7 @@ public class ConfigMoreChisels {
             "Please note that additions and removals will alter the items that are registered.",
             "You may lose items if you add to the blacklist and load an existing world!"})
     @Config.LangKey("config.morechisels.blacklist")
-    public static String[] oreBlacklist = new String[]{
+    public static String[] oreBlacklist = new String[] {
             "ingotIron",
             "gemDiamond",
             "ingotBrick",
