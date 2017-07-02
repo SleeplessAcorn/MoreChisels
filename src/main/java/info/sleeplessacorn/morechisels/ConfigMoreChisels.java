@@ -26,21 +26,17 @@ public class ConfigMoreChisels {
             "Please note that additions and removals will alter the items that are registered.",
             "You may lose items if you add to the blacklist and load an existing world!"})
     @Config.LangKey("config.morechisels.blacklist")
-    public static String[] oreBlacklist = createDefaultBlacklist();
-
-    public static String[] createDefaultBlacklist() {
-        String[] entries = new String[9];
-        entries[0] = "ingotIron";
-        entries[1] = "gemDiamond";
-        entries[2] = "ingotBrick";
-        entries[3] = "ingotBrickNether";
-        entries[4] = "ingotHotTungstensteel";
-        entries[5] = "ingotIridium";
-        entries[6] = "ingotAdvancedAlloy";
-        entries[7] = "ingotMixedMetal";
-        entries[8] = "ingotIridiumAlloy";
-        return entries;
-    }
+    public static String[] oreBlacklist = new String[]{
+            "ingotIron",
+            "gemDiamond",
+            "ingotBrick",
+            "ingotBrickNether",
+            "ingotHotTungstensteel",
+            "ingotIridium",
+            "ingotAdvancedAlloy",
+            "ingotMixedMetalAlloy",
+            "ingotIridiumAlloy"
+    };
 
     public static boolean isBlacklisted(String oredict) {
         for (String entry : oreBlacklist)
