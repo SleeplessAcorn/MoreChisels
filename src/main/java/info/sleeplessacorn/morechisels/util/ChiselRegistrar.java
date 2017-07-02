@@ -18,8 +18,6 @@ package info.sleeplessacorn.morechisels.util;
 
 import info.sleeplessacorn.morechisels.ConfigMoreChisels;
 import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.chisel.EnumChiselType;
-import info.sleeplessacorn.morechisels.chisel.ItemChiselEnum;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -44,10 +42,6 @@ public class ChiselRegistrar {
     }
 
     public static void registerChisels() {
-        // Default chisels
-        for (EnumChiselType type : EnumChiselType.values())
-            CHISELS.add(new ItemChiselEnum(type));
-
         // Ingot chisels
         int ingotDurability = Configurations.ironChiselMaxDamage;
         for (String ingot : OreDictHelper.getAllFromPrefix("ingot")) {
