@@ -53,7 +53,8 @@ public class RecipeRegistrar {
     }
 
     public static void addChiselOreRecipe(Item chisel, String ore) {
-        ResourceLocation rl = new ResourceLocation(MoreChisels.MOD_ID, OreDictHelper.format(ore));
+        ResourceLocation rl = new ResourceLocation(
+                MoreChisels.MOD_ID, "chisel_" + OreDictHelper.format(ore));
         ItemStack variant = new ItemStack(chisel);
         NBTTagCompound nbt = new NBTTagCompound();
         nbt.setString("ore", ore);
