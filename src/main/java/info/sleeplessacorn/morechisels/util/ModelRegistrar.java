@@ -17,9 +17,7 @@ package info.sleeplessacorn.morechisels.util;
  */
 
 import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -32,16 +30,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ModelRegistrar {
 
-    @SubscribeEvent
+    private static final ModelResourceLocation CHISEL_ORE = new ModelResourceLocation(
+            new ResourceLocation(MoreChisels.MOD_ID, "chisel_ore"), "inventory");
+
+    @SubscribeEvent @SuppressWarnings("ConstantConditions")
     public static void onModelRegistry(ModelRegistryEvent event) {
-        ResourceLocation dynamic = new ResourceLocation(MoreChisels.MOD_ID + ":chisel_dynamic");
-        for (Item chisel : ChiselRegistrar.CHISELS) {
-            assert chisel.getRegistryName() != null;
-            ResourceLocation normal = chisel.getRegistryName();
-            boolean isDynamic = chisel instanceof ItemChiselOreDict;
-            ModelResourceLocation mrl = new ModelResourceLocation(isDynamic ? dynamic : normal, "inventory");
-            ModelLoader.setCustomModelResourceLocation(chisel, 0, mrl);
-        }
+        ModelLoader.setCustomModelResourceLocation(ChiselRegistrar.CHISEL_INGOT, 0, CHISEL_ORE);
+        ModelLoader.setCustomModelResourceLocation(ChiselRegistrar.CHISEL_GEM, 0, CHISEL_ORE);
     }
 
 }

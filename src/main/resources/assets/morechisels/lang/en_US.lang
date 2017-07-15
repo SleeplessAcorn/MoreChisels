@@ -1,3 +1,4 @@
 item.morechisels.chisel.dirty.name=Dirty Chisel
 item.morechisels.chisel.wooden.name=Wooden Chisel
 item.morechisels.chisel.dynamic.name=%s Chisel
+item.morechisels.chisel.dynamic.error=Unknown

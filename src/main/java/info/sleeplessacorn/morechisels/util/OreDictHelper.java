@@ -37,9 +37,8 @@ public class OreDictHelper {
         return input.replaceAll("[A-Z]","_$0");
     }
 
-    public static boolean hasItems(String oredict) {
-        NonNullList<ItemStack> list = OreDictionary.getOres(oredict);
-        return list.size() > 0 && !list.get(0).isEmpty();
+    public static boolean hasItems(NonNullList<ItemStack> ores) {
+        return ores.size() > 0 && !ores.get(0).isEmpty();
     }
 
 }

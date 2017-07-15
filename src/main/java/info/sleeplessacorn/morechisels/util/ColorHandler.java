@@ -48,14 +48,10 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
                     if (!ORE_COLORS.isEmpty())
                         ORE_COLORS.clear();
                     // Prevent memory leak on resource pack change
-                    cacheOreColors("dirt");
                     cacheOreColors("ingot");
                     cacheOreColors("gem");
                 });
-        for (Item chisel : ChiselRegistrar.CHISELS) {
-            if (chisel instanceof ItemChiselOreDict)
-                registerChiselColor((ItemChiselOreDict) chisel);
-        }
+
     }
 
     private void registerChiselColor(ItemChiselOreDict dict) {
@@ -73,7 +69,6 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
             ORE_COLORS.put(entry, getOreColor(entry));
         }
     }
-
 
     private void registerColor(IItemColor color, Item item) {
         Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);

@@ -17,51 +17,64 @@ package info.sleeplessacorn.morechisels.chisel;
  */
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class ItemChiselOreDict extends ItemChiselBase implements IColoredChisel<String> {
 
-    private String name;
-    private String oredict;
+    private Map<String, ItemStack> map;
 
-    public ItemChiselOreDict(String name, int durability, String oredict,
-                             boolean hasGui, boolean isAdvanced) {
+    public ItemChiselOreDict(
+            String name, Map<String, ItemStack> map, int durability,
+            boolean hasGui, boolean isAdvanced) {
         super(name, durability, hasGui, isAdvanced);
-        this.name = name;
-        this.oredict = oredict;
+        this.map = map;
+        setHasSubtypes(true);
     }
 
-    public String getOreDict() {
-        return oredict;
+
+    @Override @SuppressWarnings("ConstantConditions")
+    public void getSubItems(
+            @Nonnull CreativeTabs tab,
+            @Nonnull NonNullList<ItemStack> items) {
+        if (!this.isInCreativeTab(tab)) return;
+        for (String entry : map.keySet()) {
+            ItemStack variant = new ItemStack(this);
+            NBTTagCompound nbt = new NBTTagCompound();
+            nbt.setString("ore", entry);
+            variant.setTagCompound(nbt);
+            items.add(variant);
+        }
     }
 
-    @Override
-    @Nonnull
-    @SideOnly(Side.CLIENT)
-    public String getItemStackDisplayName(ItemStack stack) {
-        ItemStack entry = ItemStack.EMPTY;
-        if (OreDictionary.getOres(oredict).size() > 0)
-            entry = OreDictionary.getOres(oredict).get(0);
-        String material = I18n.format(entry.getDisplayName());
-        return I18n.format("item.morechisels.chisel.dynamic.name", material);
+    @SuppressWarnings("ConstantConditions")
+    @Override @SideOnly(Side.CLIENT) @Nonnull
+    public String getItemStackDisplayName(@Nonnull ItemStack stack) {
+        if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("ore"))
+            return super.getItemStackDisplayName(stack);
+        String name, ore = stack.getTagCompound().getString("ore");
+        if (map.containsKey(ore)) {
+            name = map.get(ore).getDisplayName();
+        } else name = I18n.format("item.morechisels.chisel.dynamic.error");
+        String loc = "item.morechisels.chisel.dynamic.name";
+        return I18n.format(loc, name);
     }
 
     @Override
     public String getColorId() {
-        return oredict;
+        return "TODO";
     }
 
     @Override
     public String getDescriptiveName() {
-        ItemStack entry = ItemStack.EMPTY;
-        if (OreDictionary.getOres(oredict).size() > 0)
-            entry = OreDictionary.getOres(oredict).get(0);
-        return entry.getDisplayName();
+        return "TODO";
     }
 
 }
