@@ -27,7 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class ItemChiselOreDict extends ItemChiselBase implements IColoredChisel<Map<String, ItemStack>> {
+public class ItemChiselOreDict extends ItemChiselBase {
 
     private Map<String, ItemStack> map;
 
@@ -67,7 +67,6 @@ public class ItemChiselOreDict extends ItemChiselBase implements IColoredChisel<
         return I18n.format(loc, name);
     }
 
-    @Override
     public Map<String, ItemStack> getOreMap() {
         return this.map;
     }
