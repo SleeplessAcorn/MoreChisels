@@ -29,6 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,17 +76,20 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
                 .getItemModelWithOverrides(stack, null, null);
         TextureAtlasSprite sprite = model.getParticleTexture();
         int[] pixels = sprite.getFrameTextureData(0)[0];
-        int r = 0, g = 0, b = 0, count = 0;
+        float r = 0, g = 0, b = 0, count = 0;
+        float[] hsb = new float[3];
         for (int argb : pixels) {
             int ca = argb >> 24 & 0xFF;
             int cr = argb >> 16 & 0xFF;
             int cg = argb >> 8 & 0xFF;
             int cb = argb & 0xFF;
             if (ca > 0x7F && NumberUtils.max(cr, cg, cb) > 0x1F) {
-                r += cr;
-                g += cg;
-                b += cb;
-                count++;
+                Color.RGBtoHSB(ca, cr, cg, hsb);
+                float weight = hsb[1];
+                r += cr * weight;
+                g += cg * weight;
+                b += cb * weight;
+                count += weight;
             }
         }
         if (count > 0) {
@@ -93,10 +97,7 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
             g /= count;
             b /= count;
         }
-        r = r * r / 0xFF;
-        g = g * g / 0xFF;
-        b = b * b / 0xFF;
-        return 0xFF000000 | r << 16 | g << 8 | b;
+        return 0xFF000000 | (int) r << 16 | (int) g << 8 | (int) b;
     }
 
 }
