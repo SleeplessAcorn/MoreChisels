@@ -25,7 +25,8 @@ import java.util.List;
 
 public class OreDictHelper {
 
-    public static List<String> getAllFromPrefix(String prefix) {
+    public static List<String> getAllFromPrefix(
+            String prefix) {
         List<String> cache = new ArrayList<>();
         for (String entry : OreDictionary.getOreNames())
             if (entry.startsWith(prefix))
@@ -33,11 +34,13 @@ public class OreDictHelper {
         return cache;
     }
 
-    public static String format(String input) {
+    public static String format(
+            String input) {
         return input.replaceAll("[A-Z]","_$0");
     }
 
-    public static boolean hasItems(NonNullList<ItemStack> ores) {
+    public static boolean hasItems(
+            NonNullList<ItemStack> ores) {
         return ores.size() > 0 && !ores.get(0).isEmpty();
     }
 

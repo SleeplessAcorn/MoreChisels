@@ -19,7 +19,7 @@ package info.sleeplessacorn.morechisels.chisel;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -45,18 +45,17 @@ public class ItemChiselOreDict extends ItemChiselBase {
             @Nonnull CreativeTabs tab,
             @Nonnull NonNullList<ItemStack> items) {
         if (!this.isInCreativeTab(tab)) return;
-        for (String entry : map.keySet()) {
-            ItemStack variant = new ItemStack(this);
-            NBTTagCompound nbt = new NBTTagCompound();
-            nbt.setString("ore", entry);
-            variant.setTagCompound(nbt);
-            items.add(variant);
+        for (String ore : map.keySet()) {
+            ItemStack stack = new ItemStack(this);
+            stack.setTagInfo("ore", new NBTTagString(ore));
+            items.add(stack);
         }
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override @SideOnly(Side.CLIENT) @Nonnull
-    public String getItemStackDisplayName(@Nonnull ItemStack stack) {
+    public String getItemStackDisplayName(
+            @Nonnull ItemStack stack) {
         if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("ore"))
             return super.getItemStackDisplayName(stack);
         String name, ore = stack.getTagCompound().getString("ore");
@@ -67,8 +66,6 @@ public class ItemChiselOreDict extends ItemChiselBase {
         return I18n.format(loc, name);
     }
 
-    public Map<String, ItemStack> getOreMap() {
-        return this.map;
-    }
+    public Map<String, ItemStack> getOreMap() { return this.map; }
 
 }

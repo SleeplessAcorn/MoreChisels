@@ -17,6 +17,7 @@ package info.sleeplessacorn.morechisels.util;
  */
 
 import info.sleeplessacorn.morechisels.MoreChisels;
+import info.sleeplessacorn.morechisels.RegistryManager.ChiselRegistry;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -40,22 +41,23 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
 
     @Override
     public void registerColorHandler() {
-        ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager())
+        Minecraft mc = Minecraft.getMinecraft();
+        ((IReloadableResourceManager) mc.getResourceManager())
                 .registerReloadListener(resourceManager -> {
                     if (!ORE_COLORS.isEmpty())
                         ORE_COLORS.clear();
-                    cacheOreColors(ChiselRegistrar.CHISEL_INGOT);
-                    cacheOreColors(ChiselRegistrar.CHISEL_GEM);
+                    cacheOreColors(ChiselRegistry.CHISEL_INGOT);
+                    cacheOreColors(ChiselRegistry.CHISEL_GEM);
                 });
-        registerChiselColours(ChiselRegistrar.CHISEL_INGOT);
-        registerChiselColours(ChiselRegistrar.CHISEL_GEM);
+        registerChiselColours(ChiselRegistry.CHISEL_INGOT);
+        registerChiselColours(ChiselRegistry.CHISEL_GEM);
     }
 
     private void cacheOreColors(ItemChiselOreDict chisel) {
         for (Map.Entry<String, ItemStack> entry : chisel.getOreMap().entrySet()) {
             String ore = entry.getKey();
             ItemStack stack = entry.getValue();
-            MoreChisels.LOGGER.info("Caching ore color for <{}> from <{}>",
+            MoreChisels.LOGGER.debug("Caching ore color for <{}> from <{}>",
                     ore, stack.getItem().getRegistryName());
             ORE_COLORS.put(ore, getStackColor(stack));
         }

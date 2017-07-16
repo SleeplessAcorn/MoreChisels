@@ -42,8 +42,10 @@ public class ItemChiselBase extends Item implements IChiselItem {
     private boolean hasGui;
     private boolean isAdvanced;
 
-    public ItemChiselBase(String name, int durability,
-                          boolean hasGui, boolean isAdvanced) {
+    public ItemChiselBase(String name,
+                          int durability,
+                          boolean hasGui,
+                          boolean isAdvanced) {
         setRegistryName("chisel_"
                 + name.toLowerCase(Locale.ROOT));
         setUnlocalizedName(MoreChisels.MOD_ID + ".chisel."
@@ -59,8 +61,10 @@ public class ItemChiselBase extends Item implements IChiselItem {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(
-            ItemStack stack, @Nullable World world,
-            List<String> tooltip, ITooltipFlag flag) {
+            ItemStack stack,
+            @Nullable World world,
+            List<String> tooltip,
+            ITooltipFlag flag) {
         String loc = "item.chisel.chisel.desc.";
         if (hasGui) tooltip.add(I18n.format(loc + "gui"));
         tooltip.add(I18n.format(loc + "lc1"));
@@ -72,32 +76,53 @@ public class ItemChiselBase extends Item implements IChiselItem {
     }
 
     @Override
-    public boolean canOpenGui(World world, EntityPlayer player, EnumHand hand) {
+    public boolean canOpenGui(
+            World world,
+            EntityPlayer player,
+            EnumHand hand) {
         return hasGui;
     }
 
     @Override
-    public IChiselGuiType getGuiType(World world, EntityPlayer player, EnumHand hand) {
+    public IChiselGuiType getGuiType(
+            World world,
+            EntityPlayer player,
+            EnumHand hand) {
         return IChiselGuiType.ChiselGuiType.NORMAL;
     }
 
     @Override
-    public boolean onChisel(World world, EntityPlayer player, ItemStack chisel, ICarvingVariation target) {
+    public boolean onChisel(
+            World world,
+            EntityPlayer player,
+            ItemStack chisel,
+            ICarvingVariation target) {
         return true;
     }
 
     @Override
-    public boolean canChisel(World world, EntityPlayer player, ItemStack chisel, ICarvingVariation target) {
+    public boolean canChisel(
+            World world,
+            EntityPlayer player,
+            ItemStack chisel,
+            ICarvingVariation target) {
         return true;
     }
 
     @Override
-    public boolean canChiselBlock(World world, EntityPlayer player, EnumHand hand, BlockPos pos, IBlockState state) {
+    public boolean canChiselBlock(
+            World world,
+            EntityPlayer player,
+            EnumHand hand,
+            BlockPos pos,
+            IBlockState state) {
         return true;
     }
 
     @Override
-    public boolean hasModes(EntityPlayer player, EnumHand hand) {
+    public boolean hasModes(
+            EntityPlayer player,
+            EnumHand hand) {
         return isAdvanced;
     }
 

@@ -20,10 +20,11 @@ import net.minecraftforge.common.config.Config;
 import org.apache.commons.lang3.ArrayUtils;
 
 @Config(modid = MoreChisels.MOD_ID)
-public class ConfigMoreChisels {
+public class ConfigManager {
 
     @Config.Name("Ore Dictionary Blacklist")
-    @Config.Comment({"Entries in the ore dictionary that More Chisels shouldn't generate chisels from."})
+    @Config.Comment({"Entries in the ore dictionary that " +
+            "More Chisels shouldn't generate chisels from."})
     @Config.LangKey("config.morechisels.blacklist")
     public static String[] oreBlacklist = {
             "ingotIron",

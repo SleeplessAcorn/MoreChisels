@@ -16,7 +16,7 @@ package info.sleeplessacorn.morechisels.compat;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.util.ChiselRegistrar;
+import info.sleeplessacorn.morechisels.RegistryManager.ChiselRegistry;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
@@ -29,8 +29,8 @@ public class JEISubtypeHandler extends BlankModPlugin {
     @Override
     public void registerItemSubtypes(
             @Nonnull ISubtypeRegistry registry) {
-        registry.useNbtForSubtypes(ChiselRegistrar.CHISEL_INGOT);
-        registry.useNbtForSubtypes(ChiselRegistrar.CHISEL_GEM);
+        registry.useNbtForSubtypes(ChiselRegistry.CHISEL_INGOT);
+        registry.useNbtForSubtypes(ChiselRegistry.CHISEL_GEM);
     }
 
 }

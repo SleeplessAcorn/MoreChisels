@@ -16,7 +16,7 @@ package info.sleeplessacorn.morechisels;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.util.ChiselRegistrar;
+import info.sleeplessacorn.morechisels.RegistryManager.ChiselRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagString;
@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 @Mod(   modid = MoreChisels.MOD_ID,
         name = MoreChisels.MOD_NAME,
         version = MoreChisels.MOD_VERSION,
-        dependencies = "required-after:chisel@[" + MoreChisels.CHISEL_VERSION + ",);after:chisel-api@[,0.0.1);",
+        dependencies = MoreChisels.DEPENDENCIES,
         acceptedMinecraftVersions = MoreChisels.MC_VERSION)
 public class MoreChisels {
 
@@ -40,7 +40,7 @@ public class MoreChisels {
             MOD_NAME = "More Chisels",
             MOD_VERSION = "%mod_version%",
             MC_VERSION = "%mc_version%",
-            CHISEL_VERSION = "%chisel_version%",
+            DEPENDENCIES = "required-after:chisel@[%chisel_version%,);",
             CLIENT_PROXY = "info.sleeplessacorn.morechisels.util.ColorHandler",
             SERVER_PROXY = "info.sleeplessacorn.morechisels.MoreChisels$ProxyWrapper";
 
@@ -70,7 +70,7 @@ public class MoreChisels {
 
         @Override @Nonnull
         public ItemStack getTabIconItem() {
-            ItemStack stack = new ItemStack(ChiselRegistrar.CHISEL_INGOT);
+            ItemStack stack = new ItemStack(ChiselRegistry.CHISEL_INGOT);
             stack.setTagInfo("ore", new NBTTagString("gemEmerald"));
             return stack;
         }
