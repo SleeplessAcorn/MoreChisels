@@ -32,8 +32,11 @@ public class ItemChiselOreDict extends ItemChiselBase {
     private Map<String, ItemStack> map;
 
     public ItemChiselOreDict(
-            String name, Map<String, ItemStack> map, int durability,
-            boolean hasGui, boolean isAdvanced) {
+            String name,
+            Map<String, ItemStack> map,
+            int durability,
+            boolean hasGui,
+            boolean isAdvanced) {
         super(name, durability, hasGui, isAdvanced);
         this.map = map;
         setHasSubtypes(true);
