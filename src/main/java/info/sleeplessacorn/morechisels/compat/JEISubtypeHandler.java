@@ -24,7 +24,7 @@ import mezz.jei.api.JEIPlugin;
 import javax.annotation.Nonnull;
 
 @JEIPlugin
-public class JEISubtypeHander extends BlankModPlugin {
+public class JEISubtypeHandler extends BlankModPlugin {
 
     @Override
     public void registerItemSubtypes(
