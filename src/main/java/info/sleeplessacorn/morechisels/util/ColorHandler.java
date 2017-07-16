@@ -93,6 +93,9 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
             g /= count;
             b /= count;
         }
+        r = r * r / 0xFF;
+        g = g * g / 0xFF;
+        b = b * b / 0xFF;
         return 0xFF000000 | r << 16 | g << 8 | b;
     }
 
