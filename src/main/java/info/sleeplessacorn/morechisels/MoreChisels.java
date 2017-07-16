@@ -63,11 +63,17 @@ public class MoreChisels {
 
     @SuppressWarnings("ConstantConditions")
     private static class TabMoreChisels extends CreativeTabs {
-        TabMoreChisels() { super(MoreChisels.MOD_ID); }
+        TabMoreChisels() {
+            super(MoreChisels.MOD_ID);
+            setBackgroundImageName("item_search.png");
+        }
+
+        @Override public boolean hasSearchBar() { return true; }
+
         @Override @Nonnull
         public ItemStack getTabIconItem() {
             ItemStack stack = new ItemStack(ChiselRegistrar.CHISEL_INGOT);
-            stack.setTagInfo("ore", new NBTTagString("ingotGold"));
+            stack.setTagInfo("ore", new NBTTagString("gemEmerald"));
             return stack;
         }
     }
