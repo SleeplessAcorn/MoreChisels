@@ -28,13 +28,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 
-@Mod(
-        modid = MoreChisels.MOD_ID,
+@Mod(   modid = MoreChisels.MOD_ID,
         name = MoreChisels.MOD_NAME,
         version = MoreChisels.MOD_VERSION,
         dependencies = "required-after:chisel@[" + MoreChisels.CHISEL_VERSION + ",);after:chisel-api@[,0.0.1);",
-        acceptedMinecraftVersions = MoreChisels.MC_VERSION
-)
+        acceptedMinecraftVersions = MoreChisels.MC_VERSION)
 public class MoreChisels {
 
     public static final String
