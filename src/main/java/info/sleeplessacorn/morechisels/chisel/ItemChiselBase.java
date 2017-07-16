@@ -31,6 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import team.chisel.api.IChiselGuiType;
 import team.chisel.api.IChiselItem;
 import team.chisel.api.carving.ICarvingVariation;
+import team.chisel.common.config.Configurations;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -55,7 +56,6 @@ public class ItemChiselBase extends Item implements IChiselItem {
         setCreativeTab(MoreChisels.TAB);
         this.hasGui = hasGui;
         this.isAdvanced = isAdvanced;
-
     }
 
     @Override
@@ -73,6 +73,11 @@ public class ItemChiselBase extends Item implements IChiselItem {
             tooltip.add("");
             tooltip.add(I18n.format(loc + "modes"));
         }
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return Configurations.allowChiselDamage;
     }
 
     @Override

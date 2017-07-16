@@ -35,6 +35,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import team.chisel.common.config.Configurations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +50,13 @@ public class RegistryManager {
         public static final Map<String, ItemStack> INGOTS = new HashMap<String, ItemStack>();
         public static final Map<String, ItemStack> GEMS = new HashMap<String, ItemStack>();
 
-        public static final ItemChiselOreDict CHISEL_INGOT = new ItemChiselOreDict("ingot", INGOTS, 128, true, false);
-        public static final ItemChiselOreDict CHISEL_GEM = new ItemChiselOreDict("gem", GEMS, 512, true, true);
+        public static final int DURABILITY_INGOT = Configurations.ironChiselMaxDamage;
+        public static final int DURABILITY_GEM = Configurations.diamondChiselMaxDamage;
+
+        public static final ItemChiselOreDict CHISEL_INGOT = new ItemChiselOreDict(
+                "ingot", INGOTS, DURABILITY_INGOT, true, false);
+        public static final ItemChiselOreDict CHISEL_GEM = new ItemChiselOreDict(
+                "gem", GEMS, DURABILITY_GEM, true, true);
 
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public static void onItemRegistry(RegistryEvent.Register<Item> event) {
