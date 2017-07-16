@@ -17,6 +17,7 @@ package info.sleeplessacorn.morechisels;
  */
 
 import net.minecraftforge.common.config.Config;
+import org.apache.commons.lang3.ArrayUtils;
 
 @Config(modid = MoreChisels.MOD_ID)
 public class ConfigMoreChisels {
@@ -37,10 +38,7 @@ public class ConfigMoreChisels {
     };
 
     public static boolean isBlacklisted(String oredict) {
-        for (String entry : oreBlacklist)
-            if (entry.equals(oredict))
-                return true;
-        return false;
+        return ArrayUtils.contains(oreBlacklist, oredict);
     }
 
 }
