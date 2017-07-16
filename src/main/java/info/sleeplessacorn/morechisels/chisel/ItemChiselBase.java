@@ -47,7 +47,7 @@ public class ItemChiselBase extends Item implements IChiselItem {
         setUnlocalizedName(MoreChisels.MOD_ID + ".chisel." + name.toLowerCase());
         setMaxStackSize(1);
         setMaxDamage(durability);
-        setCreativeTab(MoreChisels.CHISEL_TAB);
+        setCreativeTab(MoreChisels.TAB);
         this.hasGui = hasGui;
         this.isAdvanced = isAdvanced;
 

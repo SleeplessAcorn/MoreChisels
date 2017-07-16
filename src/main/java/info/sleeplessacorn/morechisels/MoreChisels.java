@@ -16,7 +16,9 @@ package info.sleeplessacorn.morechisels;
  *   limitations under the License.
  */
 
+import info.sleeplessacorn.morechisels.util.ChiselRegistrar;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -24,6 +26,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import team.chisel.common.init.ChiselTabs;
+
+import javax.annotation.Nonnull;
 
 @Mod(
         modid = MoreChisels.MOD_ID,
@@ -40,6 +44,7 @@ public class MoreChisels {
     public static final String MC_VERSION = "%mc_version%";
     public static final String CHISEL_VERSION = "%chisel_version%";
 
+    public static final TabMoreChisels TAB = new TabMoreChisels();
     public static final CreativeTabs CHISEL_TAB = ChiselTabs.tab;
 
     public static final Logger LOGGER = LogManager.getLogger(MoreChisels.MOD_NAME);
@@ -59,6 +64,15 @@ public class MoreChisels {
 
     public static class ProxyWrapper {
         public void registerColorHandler() {}
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private static class TabMoreChisels extends CreativeTabs {
+        TabMoreChisels() { super(MoreChisels.MOD_ID); }
+        @Override @Nonnull
+        public ItemStack getTabIconItem() {
+            return new ItemStack(ChiselRegistrar.CHISEL_INGOT);
+        }
     }
 
 }
