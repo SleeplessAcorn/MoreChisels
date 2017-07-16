@@ -34,8 +34,6 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = MoreChisels.MOD_ID)
 public class ChiselRegistrar {
 
-    public static final String[] TYPES = new String[] {"ingot", "gem"};
-
     public static final Map<String, ItemStack> INGOTS = new HashMap<String, ItemStack>();
     public static final Map<String, ItemStack> GEMS = new HashMap<String, ItemStack>();
 
@@ -48,13 +46,19 @@ public class ChiselRegistrar {
         event.getRegistry().register(CHISEL_INGOT);
         event.getRegistry().register(CHISEL_GEM);
 
-        for (String type : TYPES) {
-            for (String entry : OreDictHelper.getAllFromPrefix(type)) {
-                NonNullList<ItemStack> items = OreDictionary.getOres(entry);
-                if (!ConfigMoreChisels.isBlacklisted(entry)
-                        && OreDictHelper.hasItems(items)) {
-                    INGOTS.put(entry, items.get(0));
-                }
+        for (String entry : OreDictHelper.getAllFromPrefix("ingot")) {
+            NonNullList<ItemStack> items = OreDictionary.getOres(entry);
+            if (!ConfigMoreChisels.isBlacklisted(entry)
+                    && OreDictHelper.hasItems(items)) {
+                INGOTS.put(entry, items.get(0));
+            }
+        }
+
+        for (String entry : OreDictHelper.getAllFromPrefix("gem")) {
+            NonNullList<ItemStack> items = OreDictionary.getOres(entry);
+            if (!ConfigMoreChisels.isBlacklisted(entry)
+                    && OreDictHelper.hasItems(items)) {
+                GEMS.put(entry, items.get(0));
             }
         }
 
