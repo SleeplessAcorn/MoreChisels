@@ -20,9 +20,11 @@ import info.sleeplessacorn.morechisels.MoreChisels;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -33,7 +35,7 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class ColorHandler extends MoreChisels.ProxyWrapper {
 
-    public static final Map<String, Integer> ORE_COLORS = new HashMap<>();
+    public static final Map<String, Integer> ORE_COLORS = new HashMap<String, Integer>();
 
     @Override
     public void registerColorHandler() {
@@ -44,7 +46,8 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
                     cacheOreColors(ChiselRegistrar.CHISEL_INGOT);
                     cacheOreColors(ChiselRegistrar.CHISEL_GEM);
                 });
-
+        registerChiselColours(ChiselRegistrar.CHISEL_INGOT);
+        registerChiselColours(ChiselRegistrar.CHISEL_GEM);
     }
 
     private void cacheOreColors(ItemChiselOreDict chisel) {
@@ -55,6 +58,16 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
                     ore, stack.getItem().getRegistryName());
             ORE_COLORS.put(ore, getStackColor(stack));
         }
+    }
+
+    public void registerChiselColours(ItemChiselOreDict chisel){
+        ItemColors colors = Minecraft.getMinecraft().getItemColors();
+        colors.registerItemColorHandler((stack, index) -> {
+            NBTTagCompound nbt = stack.getTagCompound();
+            if (nbt == null || index != 0) return -1;
+            String ore = nbt.getString("ore");
+            return ORE_COLORS.get(ore);
+        }, chisel);
     }
 
     private int getStackColor(ItemStack stack) {
