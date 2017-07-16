@@ -17,29 +17,22 @@ package info.sleeplessacorn.morechisels.util;
  */
 
 import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.chisel.IColoredChisel;
-import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @SideOnly(Side.CLIENT)
 public class ColorHandler extends MoreChisels.ProxyWrapper {
 
     public static final Map<String, Integer> ORE_COLORS = new HashMap<>();
-    private final IItemColor oreDictHandler = new ChiselColorHandler<>(ORE_COLORS, this::getOreColor);
 
     @Override
     public void registerColorHandler() {
@@ -47,38 +40,22 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
                 .registerReloadListener(resourceManager -> {
                     if (!ORE_COLORS.isEmpty())
                         ORE_COLORS.clear();
-                    // Prevent memory leak on resource pack change
-                    cacheOreColors("ingot");
-                    cacheOreColors("gem");
+                    cacheOreColors();
                 });
 
     }
 
-    private void registerChiselColor(ItemChiselOreDict dict) {
-        registerColor(oreDictHandler, dict);
-    }
-
-    private void cacheOreColors(String oredict) {
-        for (String entry : OreDictHelper.getAllFromPrefix(oredict)) {
-            if (MoreChisels.DEOBF) {
-                ItemStack stack = ItemStack.EMPTY;
-                if (OreDictionary.getOres(entry).size() > 0)
-                    stack = OreDictionary.getOres(entry).get(0);
-                MoreChisels.LOGGER.info("Caching color value for {} <{}>", stack.getDisplayName(), entry);
-            }
-            ORE_COLORS.put(entry, getOreColor(entry));
+    private void cacheOreColors() {
+        for (Map.Entry<String, ItemStack> ingots : ChiselRegistrar.INGOTS.entrySet()) {
+            MoreChisels.LOGGER.info("Caching ore color for <{}> from <{}>",
+                    ingots.getKey(), ingots.getValue());
+            ORE_COLORS.put(ingots.getKey(), getStackColor(ingots.getValue()));
         }
-    }
-
-    private void registerColor(IItemColor color, Item item) {
-        Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
-    }
-
-    private int getOreColor(String oredict) {
-        if (OreDictionary.getOres(oredict).size() > 0) {
-            ItemStack stack = OreDictionary.getOres(oredict).get(0);
-            return getStackColor(stack);
-        } else return 0xFF000000;
+        for (Map.Entry<String, ItemStack> gems : ChiselRegistrar.GEMS.entrySet()) {
+            MoreChisels.LOGGER.info("Caching ore color for <{}> from <{}>",
+                    gems.getKey(), gems.getValue());
+            ORE_COLORS.put(gems.getKey(), getStackColor(gems.getValue()));
+        }
     }
 
     private int getStackColor(ItemStack stack) {
@@ -105,29 +82,6 @@ public class ColorHandler extends MoreChisels.ProxyWrapper {
             b /= count;
         }
         return 0xFF000000 | r << 16 | g << 8 | b;
-    }
-
-    private final class ChiselColorHandler<K, I extends Item & IColoredChisel<K>> implements IItemColor {
-        private final Map<K, Integer> colorMap;
-
-        private final Function<K, Integer> computer;
-
-        public ChiselColorHandler(Map<K, Integer> colorMap, Function<K, Integer> computer) {
-            this.colorMap = colorMap;
-            this.computer = computer;
-        }
-
-        @Override
-        public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-            @SuppressWarnings("unchecked") I itemChisel = (I) stack.getItem();
-            K key = itemChisel.getColorId();
-            return tintIndex == 0 ? colorMap.computeIfAbsent(key, k -> {
-                // This mapping function should never be reached, and if it is you done fucked up, Kit
-                String msg = "Could not find a cached color value for {} <{}>, generating a new one...";
-                MoreChisels.LOGGER.warn(msg, itemChisel.getDescriptiveName(), k);
-                return computer.apply(k);
-            }) : 0xFFFFFFFF;
-        }
     }
 
 }

@@ -18,7 +18,6 @@ package info.sleeplessacorn.morechisels.chisel;
 
 public interface IColoredChisel<K> {
 
-    K getColorId();
-    String getDescriptiveName();
+    K getOreMap();
 
 }
