@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class RegistryManager {
 
-    @Mod.EventBusSubscriber(modid = MoreChisels.MOD_ID)
+    @Mod.EventBusSubscriber
     public static class ChiselRegistry {
 
         public static final Map<String, ItemStack> INGOTS = new HashMap<String, ItemStack>();
@@ -94,7 +94,7 @@ public class RegistryManager {
 
     }
 
-    @Mod.EventBusSubscriber(modid = MoreChisels.MOD_ID)
+    @Mod.EventBusSubscriber
     public static class RecipeRegistry {
 
         public static final List<IRecipe> RECIPES = new ArrayList<IRecipe>();
