@@ -29,16 +29,16 @@ import java.util.Map;
 
 public class ItemChiselOreDict extends ItemChiselBase {
 
-    private Map<String, ItemStack> map;
+    private Map<String, ItemStack> oreMap;
 
     public ItemChiselOreDict(
             String name,
-            Map<String, ItemStack> map,
+            Map<String, ItemStack> oreMap,
             int durability,
             boolean hasGui,
             boolean isAdvanced) {
         super(name, durability, hasGui, isAdvanced);
-        this.map = map;
+        this.oreMap = oreMap;
         setHasSubtypes(true);
     }
 
@@ -48,7 +48,7 @@ public class ItemChiselOreDict extends ItemChiselBase {
             @Nonnull CreativeTabs tab,
             @Nonnull NonNullList<ItemStack> items) {
         if (!this.isInCreativeTab(tab)) return;
-        for (String ore : map.keySet()) {
+        for (String ore : oreMap.keySet()) {
             ItemStack stack = new ItemStack(this);
             stack.setTagInfo("ore", new NBTTagString(ore));
             items.add(stack);
@@ -62,13 +62,13 @@ public class ItemChiselOreDict extends ItemChiselBase {
         if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("ore"))
             return super.getItemStackDisplayName(stack);
         String name, ore = stack.getTagCompound().getString("ore");
-        if (map.containsKey(ore)) {
-            name = map.get(ore).getDisplayName();
+        if (oreMap.containsKey(ore)) {
+            name = oreMap.get(ore).getDisplayName();
         } else name = I18n.format("item.morechisels.chisel.dynamic.error");
         String loc = "item.morechisels.chisel.dynamic.name";
         return I18n.format(loc, name);
     }
 
-    public Map<String, ItemStack> getOreMap() { return this.map; }
+    public Map<String, ItemStack> getOreMap() { return this.oreMap; }
 
 }
