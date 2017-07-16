@@ -34,6 +34,7 @@ import team.chisel.api.carving.ICarvingVariation;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
 
 @SuppressWarnings("NullableProblems")
 public class ItemChiselBase extends Item implements IChiselItem {
@@ -44,7 +45,7 @@ public class ItemChiselBase extends Item implements IChiselItem {
     public ItemChiselBase(String name, int durability,
                           boolean hasGui, boolean isAdvanced) {
         setRegistryName("chisel_" + name.toLowerCase());
-        setUnlocalizedName(MoreChisels.MOD_ID + ".chisel." + name.toLowerCase());
+        setUnlocalizedName(MoreChisels.MOD_ID + ".chisel." + name.toLowerCase(Locale.ROOT));
         setMaxStackSize(1);
         setMaxDamage(durability);
         setCreativeTab(MoreChisels.TAB);

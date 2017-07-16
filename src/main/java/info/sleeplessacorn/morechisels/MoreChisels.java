@@ -19,13 +19,12 @@ package info.sleeplessacorn.morechisels;
 import info.sleeplessacorn.morechisels.util.ChiselRegistrar;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.launchwrapper.Launch;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import team.chisel.common.init.ChiselTabs;
 
 import javax.annotation.Nonnull;
 
@@ -38,28 +37,24 @@ import javax.annotation.Nonnull;
 )
 public class MoreChisels {
 
-    public static final String MOD_ID = "morechisels";
-    public static final String MOD_NAME = "More Chisels";
-    public static final String MOD_VERSION = "%mod_version%";
-    public static final String MC_VERSION = "%mc_version%";
-    public static final String CHISEL_VERSION = "%chisel_version%";
+    public static final String
+            MOD_ID = "morechisels",
+            MOD_NAME = "More Chisels",
+            MOD_VERSION = "%mod_version%",
+            MC_VERSION = "%mc_version%",
+            CHISEL_VERSION = "%chisel_version%",
+            CLIENT_PROXY = "info.sleeplessacorn.morechisels.util.ColorHandler",
+            SERVER_PROXY = "info.sleeplessacorn.morechisels.MoreChisels$ProxyWrapper";
 
     public static final TabMoreChisels TAB = new TabMoreChisels();
-    public static final CreativeTabs CHISEL_TAB = ChiselTabs.tab;
-
     public static final Logger LOGGER = LogManager.getLogger(MoreChisels.MOD_NAME);
 
-    public static final boolean DEOBF = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
-
-    @SidedProxy(
-            clientSide = "info.sleeplessacorn.morechisels.util.ColorHandler",
-            serverSide = "info.sleeplessacorn.morechisels.MoreChisels$ProxyWrapper")
+    @SidedProxy(clientSide = CLIENT_PROXY, serverSide = SERVER_PROXY)
     public static ProxyWrapper proxy;
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
         proxy.registerColorHandler();
-
     }
 
     public static class ProxyWrapper {
@@ -71,7 +66,9 @@ public class MoreChisels {
         TabMoreChisels() { super(MoreChisels.MOD_ID); }
         @Override @Nonnull
         public ItemStack getTabIconItem() {
-            return new ItemStack(ChiselRegistrar.CHISEL_INGOT);
+            ItemStack stack = new ItemStack(ChiselRegistrar.CHISEL_INGOT);
+            stack.setTagInfo("ore", new NBTTagString("ingotGold"));
+            return stack;
         }
     }
 
