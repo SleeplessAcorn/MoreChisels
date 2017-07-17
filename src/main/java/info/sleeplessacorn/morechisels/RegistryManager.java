@@ -21,9 +21,7 @@ import info.sleeplessacorn.morechisels.util.OreDictHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -31,15 +29,12 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import team.chisel.common.config.Configurations;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RegistryManager {
@@ -60,24 +55,8 @@ public class RegistryManager {
 
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public static void onItemRegistry(RegistryEvent.Register<Item> event) {
-
             event.getRegistry().register(CHISEL_INGOT);
             event.getRegistry().register(CHISEL_GEM);
-
-            for (String entry : OreDictHelper.getAllFromPrefix("ingot")) {
-                NonNullList<ItemStack> items = OreDictionary.getOres(entry);
-                if (!ConfigManager.isBlacklisted(entry) && OreDictHelper.hasItems(items)) {
-                    INGOTS.put(entry, items.get(0));
-                }
-            }
-
-            for (String entry : OreDictHelper.getAllFromPrefix("gem")) {
-                NonNullList<ItemStack> items = OreDictionary.getOres(entry);
-                if (!ConfigManager.isBlacklisted(entry) && OreDictHelper.hasItems(items)) {
-                    GEMS.put(entry, items.get(0));
-                }
-            }
-
         }
     }
 
@@ -90,38 +69,15 @@ public class RegistryManager {
 
         @SubscribeEvent @SuppressWarnings("ConstantConditions")
         public static void onModelRegistry(ModelRegistryEvent event) {
-
             ModelLoader.setCustomModelResourceLocation(
                     ChiselRegistry.CHISEL_INGOT, 0, CHISEL_ORE);
             ModelLoader.setCustomModelResourceLocation(
                     ChiselRegistry.CHISEL_GEM, 0, CHISEL_ORE);
-
         }
 
     }
 
-    @Mod.EventBusSubscriber
     public static class RecipeRegistry {
-
-        public static final List<IRecipe> RECIPES = new ArrayList<IRecipe>();
-
-        @SubscribeEvent
-        public static void onRecipeRegistry(RegistryEvent.Register<IRecipe> event) {
-
-            for (String ore : ChiselRegistry.INGOTS.keySet()) {
-                RecipeRegistry.addChiselOreRecipe(
-                        ChiselRegistry.CHISEL_INGOT, ore);
-            }
-
-            for (String ore : ChiselRegistry.GEMS.keySet()) {
-                RecipeRegistry.addChiselOreRecipe(
-                        ChiselRegistry.CHISEL_GEM, ore);
-            }
-
-            event.getRegistry().registerAll(
-                    RECIPES.toArray(new IRecipe[0]));
-
-        }
 
         public static void addChiselOreRecipe(Item chisel, String ore) {
             ResourceLocation group = new ResourceLocation(MoreChisels.MOD_ID, "chisel");
@@ -129,10 +85,8 @@ public class RegistryManager {
                     MoreChisels.MOD_ID, "chisel_" + OreDictHelper.format(ore));
             ItemStack variant = new ItemStack(chisel);
             variant.setTagInfo("ore", new NBTTagString(ore));
-            RECIPES.add(new ShapedOreRecipe(
-                    group, variant, " O", "S ",
-                    'O', ore, 'S', "stickWood")
-                    .setRegistryName(name));
+            GameRegistry.addShapedRecipe(name, group, variant, " O", "S ",
+                    'O', ore, 'S', "stickWood");
         }
 
     }
