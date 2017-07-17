@@ -27,15 +27,16 @@ public class ConfigManager {
             "More Chisels shouldn't generate chisels from."})
     @Config.LangKey("config.morechisels.blacklist")
     public static String[] oreBlacklist = {
-            "ingotIron",
             "gemDiamond",
+            "gemLapis",
+            "ingotAdvancedAlloy",
             "ingotBrick",
             "ingotBrickNether",
             "ingotHotTungstensteel",
             "ingotIridium",
-            "ingotAdvancedAlloy",
-            "ingotMixedMetalAlloy",
-            "ingotIridiumAlloy"
+            "ingotIridiumAlloy",
+            "ingotIron",
+            "ingotMixedMetalAlloy"
     };
 
     public static boolean isBlacklisted(String oredict) {
