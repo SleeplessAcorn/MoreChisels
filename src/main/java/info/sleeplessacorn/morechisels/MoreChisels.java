@@ -42,14 +42,15 @@ public class MoreChisels {
             MOD_VERSION = "%mod_version%",
             MC_VERSION = "%mc_version%",
             DEPENDENCIES = "required-after:chisel@[%chisel_version%,);after:*;",
-            CLIENT_PROXY = "info.sleeplessacorn.morechisels.util.ColorRegistry",
-            SERVER_PROXY = "info.sleeplessacorn.morechisels.MoreChisels$ProxyWrapper";
+            CLIENT_PROXY = "info.sleeplessacorn.morechisels.ClientRegistry",
+            SERVER_PROXY = "info.sleeplessacorn.morechisels.MoreChisels$ServerWrapper";
 
     public static final TabMoreChisels TAB = new TabMoreChisels();
     public static final Logger LOGGER = LogManager.getLogger(MoreChisels.MOD_NAME);
 
     @SidedProxy(clientSide = CLIENT_PROXY, serverSide = SERVER_PROXY)
     public static RegistryManager proxy;
+    public static class ServerWrapper extends RegistryManager {}
 
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
@@ -79,7 +80,5 @@ public class MoreChisels {
         }
 
     }
-
-    private static class ProxyWrapper extends RegistryManager {}
 
 }

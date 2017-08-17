@@ -1,4 +1,4 @@
-package info.sleeplessacorn.morechisels.util;
+package info.sleeplessacorn.morechisels;
 
 /*
  *  Copyright 2017 Sleepless Acorn
@@ -16,16 +16,20 @@ package info.sleeplessacorn.morechisels.util;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.MoreChisels;
-import info.sleeplessacorn.morechisels.RegistryManager;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -35,9 +39,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class ColorRegistry extends RegistryManager {
+public class ClientRegistry extends RegistryManager {
 
     public static final Map<String, Integer> ORE_COLORS = new HashMap<String, Integer>();
+
+    @Mod.EventBusSubscriber(Side.CLIENT)
+    @SideOnly(Side.CLIENT)
+    public static class ModelRegistry {
+
+        public static final ModelResourceLocation CHISEL_ORE = new ModelResourceLocation(
+                new ResourceLocation(MoreChisels.MOD_ID, "chisel_ore"), "inventory");
+
+        @SubscribeEvent
+        @SuppressWarnings("ConstantConditions")
+        public static void onModelRegistry(ModelRegistryEvent event) {
+            ModelLoader.setCustomModelResourceLocation(
+                    ChiselRegistry.CHISEL_INGOT, 0, CHISEL_ORE);
+            ModelLoader.setCustomModelResourceLocation(
+                    ChiselRegistry.CHISEL_GEM, 0, CHISEL_ORE);
+        }
+
+    }
 
     @Override
     public void registerColorHandler() {

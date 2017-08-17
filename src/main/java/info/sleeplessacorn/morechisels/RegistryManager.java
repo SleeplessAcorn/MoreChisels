@@ -18,14 +18,11 @@ package info.sleeplessacorn.morechisels;
 
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import info.sleeplessacorn.morechisels.util.OreDictHelper;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -33,8 +30,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import team.chisel.common.config.Configurations;
 
@@ -66,11 +61,11 @@ public class RegistryManager {
     public void onRecipeRegistry(FMLPostInitializationEvent event) {
 
         for (String ore : ChiselRegistry.INGOTS.keySet()) {
-            addChiselOreRecipe(ChiselRegistry.CHISEL_INGOT, ore);
+            RegistryManager.addChiselOreRecipe(ChiselRegistry.CHISEL_INGOT, ore);
         }
 
         for (String ore : ChiselRegistry.GEMS.keySet()) {
-            addChiselOreRecipe(ChiselRegistry.CHISEL_GEM, ore);
+            RegistryManager.addChiselOreRecipe(ChiselRegistry.CHISEL_GEM, ore);
         }
 
     }
@@ -93,23 +88,6 @@ public class RegistryManager {
         public static void onItemRegistry(RegistryEvent.Register<Item> event) {
             event.getRegistry().register(CHISEL_INGOT);
             event.getRegistry().register(CHISEL_GEM);
-        }
-
-    }
-
-    @Mod.EventBusSubscriber(Side.CLIENT)
-    @SideOnly(Side.CLIENT)
-    public static class ModelRegistry {
-
-        public static final ModelResourceLocation CHISEL_ORE = new ModelResourceLocation(
-                new ResourceLocation(MoreChisels.MOD_ID, "chisel_ore"), "inventory");
-
-        @SubscribeEvent @SuppressWarnings("ConstantConditions")
-        public static void onModelRegistry(ModelRegistryEvent event) {
-            ModelLoader.setCustomModelResourceLocation(
-                    ChiselRegistry.CHISEL_INGOT, 0, CHISEL_ORE);
-            ModelLoader.setCustomModelResourceLocation(
-                    ChiselRegistry.CHISEL_GEM, 0, CHISEL_ORE);
         }
 
     }
