@@ -41,7 +41,6 @@ public class ItemChiselOreDict extends ItemChiselBase {
 
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
         if (this.isInCreativeTab(tab)) {
             oreMap.keySet().forEach(ore -> {

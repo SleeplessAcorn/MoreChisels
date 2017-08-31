@@ -36,7 +36,6 @@ import team.chisel.common.config.Configurations;
 import java.util.List;
 import java.util.Locale;
 
-@SuppressWarnings("NullableProblems")
 public class ItemChiselBase extends Item implements IChiselItem {
 
     private boolean hasGui, isAdvanced;
