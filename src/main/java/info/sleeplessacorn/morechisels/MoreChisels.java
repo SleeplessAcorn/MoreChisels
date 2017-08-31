@@ -16,7 +16,7 @@ package info.sleeplessacorn.morechisels;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.RegistryManager.ChiselRegistry;
+import info.sleeplessacorn.morechisels.ChiselRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagString;
@@ -27,8 +27,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.annotation.Nonnull;
-
 @Mod(   modid = MoreChisels.MOD_ID,
         name = MoreChisels.MOD_NAME,
         version = MoreChisels.MOD_VERSION,
@@ -36,21 +34,37 @@ import javax.annotation.Nonnull;
         acceptedMinecraftVersions = MoreChisels.MC_VERSION)
 public class MoreChisels {
 
-    public static final String
-            MOD_ID = "morechisels",
-            MOD_NAME = "More Chisels",
-            MOD_VERSION = "%mod_version%",
-            MC_VERSION = "%mc_version%",
-            DEPENDENCIES = "required-after:chisel@[%chisel_version%,);after:*;",
-            CLIENT_PROXY = "info.sleeplessacorn.morechisels.ClientRegistry",
-            SERVER_PROXY = "info.sleeplessacorn.morechisels.MoreChisels$ServerWrapper";
+    public static final String MOD_ID = "morechisels", MOD_NAME = "More Chisels";
+    public static final String MOD_VERSION = "%mod_version%", MC_VERSION = "%mc_version%";
+    public static final String DEPENDENCIES = "required-after:chisel@[%chisel_version%,);after:*;";
+    public static final String CLIENT_PROXY = "info.sleeplessacorn.morechisels.ClientRegistry";
+    public static final String SERVER_PROXY = "info.sleeplessacorn.morechisels.ChiselRegistry";
 
-    public static final TabMoreChisels TAB = new TabMoreChisels();
     public static final Logger LOGGER = LogManager.getLogger(MoreChisels.MOD_NAME);
 
+    public static final CreativeTabs CTAB = new CreativeTabs(MoreChisels.MOD_ID) {
+
+        @Override
+        public ItemStack getTabIconItem() {
+            ItemStack stack = new ItemStack(ChiselRegistry.CHISEL_INGOT);
+            stack.setTagInfo("ore", new NBTTagString("gemEmerald"));
+            return stack;
+        }
+
+        @Override
+        public boolean hasSearchBar() {
+            return true;
+        }
+
+        @Override
+        public String getBackgroundImageName() {
+            return "item_search.png";
+        }
+
+    };
+
     @SidedProxy(clientSide = CLIENT_PROXY, serverSide = SERVER_PROXY)
-    public static RegistryManager proxy;
-    public static class ServerWrapper extends RegistryManager {}
+    public static ChiselRegistry proxy;
 
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
@@ -63,22 +77,5 @@ public class MoreChisels {
         proxy.registerColorHandler();
     }
 
-    private static class TabMoreChisels extends CreativeTabs {
-
-        TabMoreChisels() {
-            super(MoreChisels.MOD_ID);
-            setBackgroundImageName("item_search.png");
-        }
-
-        @Override public boolean hasSearchBar() { return true; }
-
-        @Override @Nonnull
-        public ItemStack getTabIconItem() {
-            ItemStack stack = new ItemStack(ChiselRegistry.CHISEL_INGOT);
-            stack.setTagInfo("ore", new NBTTagString("gemEmerald"));
-            return stack;
-        }
-
-    }
 
 }

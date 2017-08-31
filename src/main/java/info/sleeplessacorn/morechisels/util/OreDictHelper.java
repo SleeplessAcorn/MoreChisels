@@ -20,27 +20,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OreDictHelper {
 
-    public static List<String> getAllFromPrefix(
-            String prefix) {
-        List<String> cache = new ArrayList<>();
-        for (String entry : OreDictionary.getOreNames())
-            if (entry.startsWith(prefix))
-                cache.add(entry);
-        return cache;
+    public static List<String> getAllFromPrefix(String prefix) {
+        return Arrays.stream(OreDictionary.getOreNames())
+                .filter(entry -> entry.startsWith(prefix))
+                .collect(Collectors.toList());
     }
 
-    public static String format(
-            String input) {
+    public static String format(String input) {
         return input.replaceAll("[A-Z]","_$0");
     }
 
-    public static boolean hasItems(
-            NonNullList<ItemStack> ores) {
+    public static boolean hasItems(NonNullList<ItemStack> ores) {
         return ores.size() > 0 && !ores.get(0).isEmpty();
     }
 

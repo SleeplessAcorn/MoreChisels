@@ -29,46 +29,44 @@ import java.util.Map;
 
 public class ItemChiselOreDict extends ItemChiselBase {
 
-    private Map<String, ItemStack> oreMap;
+    private final Map<String, ItemStack> oreMap;
 
     public ItemChiselOreDict(
-            String name,
-            Map<String, ItemStack> oreMap,
-            int durability,
-            boolean hasGui,
-            boolean isAdvanced) {
+            String name, Map<String, ItemStack> oreMap,
+            int durability, boolean hasGui, boolean isAdvanced) {
         super(name, durability, hasGui, isAdvanced);
         this.oreMap = oreMap;
         setHasSubtypes(true);
     }
 
 
-    @Override @SuppressWarnings("ConstantConditions")
-    public void getSubItems(
-            @Nonnull CreativeTabs tab,
-            @Nonnull NonNullList<ItemStack> items) {
-        if (!this.isInCreativeTab(tab)) return;
-        for (String ore : oreMap.keySet()) {
-            ItemStack stack = new ItemStack(this);
-            stack.setTagInfo("ore", new NBTTagString(ore));
-            items.add(stack);
+    @Override
+    @SuppressWarnings("ConstantConditions")
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
+        if (this.isInCreativeTab(tab)) {
+            oreMap.keySet().forEach(ore -> {
+                ItemStack stack = new ItemStack(this);
+                stack.setTagInfo("ore", new NBTTagString(ore));
+                items.add(stack);
+            });
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override @SideOnly(Side.CLIENT) @Nonnull
-    public String getItemStackDisplayName(
-            @Nonnull ItemStack stack) {
-        if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("ore"))
-            return super.getItemStackDisplayName(stack);
-        String name, ore = stack.getTagCompound().getString("ore");
-        if (oreMap.containsKey(ore)) {
-            name = oreMap.get(ore).getDisplayName();
-        } else name = I18n.format("item.morechisels.chisel.dynamic.error");
-        String loc = "item.morechisels.chisel.dynamic.name";
-        return I18n.format(loc, name);
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getItemStackDisplayName(ItemStack stack) {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("ore")) {
+            String ore = stack.getTagCompound().getString("ore");
+            String name = oreMap.containsKey(ore)
+                    ? oreMap.get(ore).getDisplayName()
+                    : "item.morechisels.chisel.dynamic.error";
+            return I18n.format("item.morechisels.chisel.dynamic.name", name);
+        }
+        return super.getItemStackDisplayName(stack);
     }
 
-    public Map<String, ItemStack> getOreMap() { return this.oreMap; }
+    public Map<String, ItemStack> getOreMap() {
+        return this.oreMap;
+    }
 
 }

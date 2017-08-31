@@ -19,17 +19,11 @@ package info.sleeplessacorn.morechisels;
 import info.sleeplessacorn.morechisels.chisel.ItemChiselOreDict;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -39,65 +33,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class ClientRegistry extends RegistryManager {
+public class ClientRegistry extends ChiselRegistry {
 
-    public static final Map<String, Integer> ORE_COLORS = new HashMap<String, Integer>();
-
-    @Mod.EventBusSubscriber(Side.CLIENT)
-    @SideOnly(Side.CLIENT)
-    public static class ModelRegistry {
-
-        public static final ModelResourceLocation CHISEL_ORE = new ModelResourceLocation(
-                new ResourceLocation(MoreChisels.MOD_ID, "chisel_ore"), "inventory");
-
-        @SubscribeEvent
-        @SuppressWarnings("ConstantConditions")
-        public static void onModelRegistry(ModelRegistryEvent event) {
-            ModelLoader.setCustomModelResourceLocation(
-                    ChiselRegistry.CHISEL_INGOT, 0, CHISEL_ORE);
-            ModelLoader.setCustomModelResourceLocation(
-                    ChiselRegistry.CHISEL_GEM, 0, CHISEL_ORE);
-        }
-
-    }
+    public static final Map<String, Integer> ORE_COLORS = new HashMap<>();
 
     @Override
     public void registerColorHandler() {
-        Minecraft mc = Minecraft.getMinecraft();
-        ((IReloadableResourceManager) mc.getResourceManager())
+        ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager())
                 .registerReloadListener(resourceManager -> {
                     if (!ORE_COLORS.isEmpty())
                         ORE_COLORS.clear();
-                    cacheOreColors(ChiselRegistry.CHISEL_INGOT);
-                    cacheOreColors(ChiselRegistry.CHISEL_GEM);
+                    cacheOreColors(ChiselRegistry.CHISEL_INGOT, ChiselRegistry.CHISEL_GEM);
                 });
-        registerChiselColours(ChiselRegistry.CHISEL_INGOT);
-        registerChiselColours(ChiselRegistry.CHISEL_GEM);
+        registerChiselColours(ChiselRegistry.CHISEL_INGOT, ChiselRegistry.CHISEL_GEM);
     }
 
-    private void cacheOreColors(ItemChiselOreDict chisel) {
-        for (Map.Entry<String, ItemStack> entry : chisel.getOreMap().entrySet()) {
-            String ore = entry.getKey();
-            ItemStack stack = entry.getValue();
-            MoreChisels.LOGGER.debug("Caching ore color for <{}> from <{}>",
-                    ore, stack.getItem().getRegistryName());
-            ORE_COLORS.put(ore, getStackColor(stack));
+    private void cacheOreColors(ItemChiselOreDict... chisels) {
+        for (ItemChiselOreDict chisel : chisels) {
+            chisel.getOreMap().forEach((ore, stack) -> {
+                MoreChisels.LOGGER.debug("Caching ore color for <{}> from <{}>",
+                        ore, stack.getItem().getRegistryName());
+                ORE_COLORS.put(ore, getStackColor(stack));
+            });
         }
     }
 
-    public void registerChiselColours(ItemChiselOreDict chisel){
-        ItemColors colors = Minecraft.getMinecraft().getItemColors();
-        colors.registerItemColorHandler((stack, index) -> {
-            NBTTagCompound nbt = stack.getTagCompound();
-            if (nbt == null || index != 0) return -1;
-            String ore = nbt.getString("ore");
-            return ORE_COLORS.get(ore);
-        }, chisel);
+    public void registerChiselColours(ItemChiselOreDict... chisels){
+        for (ItemChiselOreDict chisel : chisels) {
+            ItemColors colors = Minecraft.getMinecraft().getItemColors();
+            colors.registerItemColorHandler((stack, index) -> {
+                NBTTagCompound nbt = stack.getTagCompound();
+                if (nbt == null || index != 0) return -1;
+                String ore = nbt.getString("ore");
+                return ORE_COLORS.get(ore);
+            }, chisel);
+        }
     }
 
     private int getStackColor(ItemStack stack) {
-        IBakedModel model = Minecraft.getMinecraft().getRenderItem()
-                .getItemModelWithOverrides(stack, null, null);
+        IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(stack, null, null);
         TextureAtlasSprite sprite = model.getParticleTexture();
         int[] pixels = sprite.getFrameTextureData(0)[0];
         float r = 0, g = 0, b = 0, count = 0;

@@ -17,15 +17,20 @@ package info.sleeplessacorn.morechisels;
  */
 
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.commons.lang3.ArrayUtils;
 
 @Config(modid = MoreChisels.MOD_ID)
+@Mod.EventBusSubscriber(modid = MoreChisels.MOD_ID)
 public class ConfigManager {
 
     @Config.Name("Ore Dictionary Blacklist")
     @Config.Comment({"Entries in the ore dictionary that " +
             "More Chisels shouldn't generate chisels from."})
     @Config.LangKey("config.morechisels.blacklist")
+    @Config.RequiresMcRestart
     public static String[] oreBlacklist = {
             "gemDiamond",
             "gemLapis",
@@ -41,6 +46,13 @@ public class ConfigManager {
 
     public static boolean isBlacklisted(String oredict) {
         return ArrayUtils.contains(oreBlacklist, oredict);
+    }
+
+    @SubscribeEvent
+    protected static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (MoreChisels.MOD_ID.equals(event.getModID())) {
+            net.minecraftforge.common.config.ConfigManager.sync(MoreChisels.MOD_ID, Config.Type.INSTANCE);
+        }
     }
 
 }

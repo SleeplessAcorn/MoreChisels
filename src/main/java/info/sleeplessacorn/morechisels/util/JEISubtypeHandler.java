@@ -1,4 +1,4 @@
-package info.sleeplessacorn.morechisels.compat;
+package info.sleeplessacorn.morechisels.util;
 
 /*
  *  Copyright 2017 Sleepless Acorn
@@ -16,19 +16,16 @@ package info.sleeplessacorn.morechisels.compat;
  *   limitations under the License.
  */
 
-import info.sleeplessacorn.morechisels.RegistryManager.ChiselRegistry;
-import mezz.jei.api.BlankModPlugin;
+import info.sleeplessacorn.morechisels.ChiselRegistry;
+import mezz.jei.api.IModPlugin;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 
-import javax.annotation.Nonnull;
-
 @JEIPlugin
-public class JEISubtypeHandler extends BlankModPlugin {
+public class JEISubtypeHandler implements IModPlugin {
 
     @Override
-    public void registerItemSubtypes(
-            @Nonnull ISubtypeRegistry registry) {
+    public void registerItemSubtypes(ISubtypeRegistry registry) {
         registry.useNbtForSubtypes(ChiselRegistry.CHISEL_INGOT);
         registry.useNbtForSubtypes(ChiselRegistry.CHISEL_GEM);
     }
