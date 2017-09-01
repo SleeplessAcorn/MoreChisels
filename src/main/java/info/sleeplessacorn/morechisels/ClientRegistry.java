@@ -41,15 +41,12 @@ public class ClientRegistry extends ChiselRegistry {
     @Override
     public void registerColorHandler() {
         ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager())
-                .registerReloadListener(resourceManager -> {
-                    if (!ORE_COLORS.isEmpty())
-                        ORE_COLORS.clear();
-                    cacheOreColors(ChiselRegistry.CHISEL_INGOT, ChiselRegistry.CHISEL_GEM);
-                });
-        registerChiselColours(ChiselRegistry.CHISEL_INGOT, ChiselRegistry.CHISEL_GEM);
+                .registerReloadListener(resourceManager -> cacheOreColors(CHISEL_INGOT, CHISEL_GEM));
+        registerChiselColours(CHISEL_INGOT, CHISEL_GEM);
     }
 
     private void cacheOreColors(ItemChiselOreDict... chisels) {
+        ORE_COLORS.clear();
         Arrays.stream(chisels).forEach(chisel -> chisel.getOreMap().forEach((ore, stack) -> {
             MoreChisels.LOGGER.debug("Caching ore color for <{}> from <{}>",
                     ore, stack.getItem().getRegistryName());
@@ -62,9 +59,11 @@ public class ClientRegistry extends ChiselRegistry {
             ItemColors colors = Minecraft.getMinecraft().getItemColors();
             colors.registerItemColorHandler((stack, index) -> {
                 NBTTagCompound nbt = stack.getTagCompound();
-                if (nbt == null || index != 0) return -1;
-                String ore = nbt.getString("ore");
-                return ORE_COLORS.get(ore);
+                if (nbt != null && index == 0) {
+                    String ore = nbt.getString("ore");
+                    return ORE_COLORS.get(ore);
+                }
+                return -1;
             }, chisel);
         });
     }
