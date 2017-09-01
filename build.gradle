@@ -12,63 +12,33 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply from: 'dependencies.gradle'
 
-version = "${mc_version}-${mod_version}"
-if (mod_build != "")
-    version = "${mc_version}-${mod_version}-${mod_build}"
-group = "${mod_domain}.${mod_id}"
-archivesBaseName = mod_id
+version = "$mcVersion-$modVersion"
+group = "info.sleeplessacorn.morechisels"
+archivesBaseName = "morechisels"
 
-sourceCompatibility = compat_version
-targetCompatibility = compat_version
-
-libsDirName = build_dir
-distsDirName = build_dir
-
-compileJava {
-    sourceCompatibility = compat_version
-    targetCompatibility = compat_version
-}
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = run_dir
-    mappings = mcp_mappings
+    version = "$mcVersion-$mcfVersion"
+    mappings = mcpMappings
+    runDir = "/run"
 
-    replace '%mod_version%', "${mod_version}"
-    replace '%mc_version%', "${mc_version}"
-    replace '%chisel_version%', "MC${mc_version}-${chisel_version}"
-
-    replace 'scala.actors.threadpool.Arrays', 'java.util.Arrays'
-
-    useDepAts = true
-}
-
-repositories {
-    maven { url = "http://maven.tterrag.com/" }
-    maven { url = "http://dvs1.progwml6.com/files/maven" }
-}
-
-dependencies {
-    compile "team.chisel.ctm:CTM:MC${mc_version}-${ctm_version}"
-    runtime "team.chisel.ctm:CTM:MC${mc_version}-${ctm_version}"
-
-    compile "team.chisel:Chisel:MC${mc_version}-${chisel_version}"
-    runtime "team.chisel:Chisel:MC${mc_version}-${chisel_version}"
-
-    deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
-    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    replace '%MODVERSION%', modVersion
+    replace '%CHISELVERSION%', "MC$mcVersion-$chiselVersion"
+    replaceIn 'MoreChisels.java'
 }
 
 processResources {
-    inputs.property "build_version", "${mod_version}-${mod_build}"
-    inputs.property "mcf_version", "${mc_version}-${forge_version}"
-
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand  'build_version': "${mod_version}-${mod_build}",
-                'mcf_version': "${mc_version}-${forge_version}"
+        include 'mcmod.info', 'pack.mcmeta'
+        expand  'mod_version': modVersion,
+                'mc_version': mcVersion
     }
 
-    from(sourceSets.main.resources.srcDirs) {exclude 'mcmod.info'}
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info', 'pack.mcmeta'
+    }
 }

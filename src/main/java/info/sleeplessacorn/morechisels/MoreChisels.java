@@ -42,8 +42,8 @@ import java.util.Arrays;
 public class MoreChisels {
 
     public static final String MOD_ID = "morechisels", MOD_NAME = "More Chisels";
-    public static final String MOD_VERSION = "%mod_version%", MC_VERSION = "%mc_version%";
-    public static final String DEPENDENCIES = "required-after:chisel@[%chisel_version%,);after:*;";
+    public static final String MOD_VERSION = "%MODVERSION%", MC_VERSION = "[1.12,1.13)";
+    public static final String DEPENDENCIES = "required-after:chisel@[%CHISELVERSION%,);after:*;";
     public static final String CLIENT_PROXY = "info.sleeplessacorn.morechisels.ClientRegistry";
     public static final String SERVER_PROXY = "info.sleeplessacorn.morechisels.ChiselRegistry";
 
