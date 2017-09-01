@@ -29,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,17 +50,15 @@ public class ClientRegistry extends ChiselRegistry {
     }
 
     private void cacheOreColors(ItemChiselOreDict... chisels) {
-        for (ItemChiselOreDict chisel : chisels) {
-            chisel.getOreMap().forEach((ore, stack) -> {
-                MoreChisels.LOGGER.debug("Caching ore color for <{}> from <{}>",
-                        ore, stack.getItem().getRegistryName());
-                ORE_COLORS.put(ore, getStackColor(stack));
-            });
-        }
+        Arrays.stream(chisels).forEach(chisel -> chisel.getOreMap().forEach((ore, stack) -> {
+            MoreChisels.LOGGER.debug("Caching ore color for <{}> from <{}>",
+                    ore, stack.getItem().getRegistryName());
+            ORE_COLORS.put(ore, getStackColor(stack));
+        }));
     }
 
     public void registerChiselColours(ItemChiselOreDict... chisels){
-        for (ItemChiselOreDict chisel : chisels) {
+        Arrays.stream(chisels).forEach(chisel -> {
             ItemColors colors = Minecraft.getMinecraft().getItemColors();
             colors.registerItemColorHandler((stack, index) -> {
                 NBTTagCompound nbt = stack.getTagCompound();
@@ -67,7 +66,7 @@ public class ClientRegistry extends ChiselRegistry {
                 String ore = nbt.getString("ore");
                 return ORE_COLORS.get(ore);
             }, chisel);
-        }
+        });
     }
 
     private int getStackColor(ItemStack stack) {

@@ -38,6 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import team.chisel.common.config.Configurations;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class ChiselRegistry {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void onModelRegistry(ModelRegistryEvent event) {
-        registerOreChiselModel(CHISEL_INGOT, CHISEL_GEM);
+        registerOreChiselModels(CHISEL_INGOT, CHISEL_GEM);
     }
 
     public void registerColorHandler() {}
@@ -84,24 +85,22 @@ public class ChiselRegistry {
     }
 
     @SideOnly(Side.CLIENT)
-    private static void registerOreChiselModel(ItemChiselOreDict... chisels) {
-        for (ItemChiselOreDict chisel : chisels) {
+    private static void registerOreChiselModels(ItemChiselOreDict... chisels) {
+        Arrays.stream(chisels).forEach(chisel -> {
             ResourceLocation name = new ResourceLocation(MoreChisels.MOD_ID, "chisel_ore");
             ModelResourceLocation mrl = new ModelResourceLocation(name, "inventory");
             ModelLoader.setCustomModelResourceLocation(chisel, 0, mrl);
-        }
+        });
     }
 
     private static void registerChiselOreRecipes(ItemChiselOreDict... chisels) {
-        for (ItemChiselOreDict chisel : chisels) {
-            chisel.getOreMap().forEach((ore, stack) -> {
-                ResourceLocation group = new ResourceLocation(MoreChisels.MOD_ID, "chisel");
-                ResourceLocation name = new ResourceLocation(MoreChisels.MOD_ID, "chisel_" + OreDictHelper.format(ore));
-                ItemStack variant = new ItemStack(chisel);
-                variant.setTagInfo("ore", new NBTTagString(ore));
-                GameRegistry.addShapedRecipe(name, group, variant, " O", "S ", 'O', ore, 'S', "stickWood");
-            });
-        }
+        Arrays.stream(chisels).forEach(chisel -> chisel.getOreMap().forEach((ore, stack) -> {
+            ResourceLocation group = new ResourceLocation(MoreChisels.MOD_ID, "chisel");
+            ResourceLocation name = new ResourceLocation(MoreChisels.MOD_ID, "chisel_" + OreDictHelper.format(ore));
+            ItemStack variant = new ItemStack(chisel);
+            variant.setTagInfo("ore", new NBTTagString(ore));
+            GameRegistry.addShapedRecipe(name, group, variant, " O", "S ", 'O', ore, 'S', "stickWood");
+        }));
     }
 
 }
