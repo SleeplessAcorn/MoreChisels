@@ -39,10 +39,9 @@ public class ItemChiselOreDict extends ItemChiselBase {
         setHasSubtypes(true);
     }
 
-
     @Override
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        if (this.isInCreativeTab(tab)) {
+        if (isInCreativeTab(tab)) {
             oreMap.keySet().forEach(ore -> {
                 ItemStack stack = new ItemStack(this);
                 stack.setTagInfo("ore", new NBTTagString(ore));

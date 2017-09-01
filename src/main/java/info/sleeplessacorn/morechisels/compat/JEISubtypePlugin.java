@@ -1,4 +1,4 @@
-package info.sleeplessacorn.morechisels.util;
+package info.sleeplessacorn.morechisels.compat;
 
 /*
  *  Copyright 2017 Sleepless Acorn
@@ -22,7 +22,7 @@ import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 
 @JEIPlugin
-public class JEISubtypeHandler implements IModPlugin {
+public class JEISubtypePlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistry registry) {
